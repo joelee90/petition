@@ -1,0 +1,30 @@
+<h1>Sign our petition to get rid of pickles from all hamburgers around the world!</h1>
+
+<div class = "petition">
+
+    <div>
+        {{#material}}
+        <img src = "burger.jpg">
+        {{/material}}
+    </div>
+
+
+    <div>
+        <form  method="post" action="/petition">
+            <input type = 'text' name='first'></input>
+            <span>
+                First Name
+            </span>
+            <input type = 'text' name='last'></input>
+            <span>
+                Last Name
+            </span>
+            <button type="submit" class = "subtmit-btn">Submit</button>
+        </form>
+
+    </div>
+
+    <div>
+        <span>Sign Here</span>
+    </div>
+</div>

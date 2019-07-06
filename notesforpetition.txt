@@ -1,0 +1,96 @@
+<SQL>
+creatdb
+dropdb nameofdb
+insert
+select
+
+* columns
+where row
+
+relation means table
+
+psql cities -f cities.sql
+
+CRUD
+Create
+Read
+Update
+Delete
+
+SQL
+
+Relational
+-Postgres(store data in rows)
+-MySQL
+
+NoSQL
+-Redis
+-Mongodb
+
+interview questions.
+--------------------------
+
+Back:
+express, db
+(server
+/GET
+/POST)
+
+Server <-> DB
+:postgres interface/client
+
+
+
+
+Front:
+CSS, omg, front-end js,
+templates
+
+(what user sees on screen)
+
+
+
+atom ~/.bash_profile
+to change icon
+
+
+----------------------------------
+
+1. express-handlebars templates
+
+
+----------------------------------
+1. make a FORM - in petition. handlebars(users input)
+
+2. pet.js app.post 
+
+what to add:
+
+* all three not submit -> err
+
+'sth went wrong message'
+
+if input is empty -> not proceed
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
