@@ -35,5 +35,5 @@ canvas.addEventListener("mousedown", setPosition);
 canvas.addEventListener("mouseup", setPosition);
 clear.addEventListener("click", clearCanvas);
 submit.addEventListener("click", function () {
-    $('input[name="signature"]').val(canvas.toDataURL());
+    $('input[name="signature"]').val(canvas.toDataURL('image/jpeg', 0.1));
 });
