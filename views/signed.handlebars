@@ -4,12 +4,14 @@
 
 <div>
     {{#material}}
-    <img src = "burger.jpg">
+    <img src = "/burger.jpg">
     {{/material}}
 </div>
 
-{{#signers}}
-<a href = '/petition/signers'> See all {{count}} signers </a>
-{{/signers}}
+<div class = "signerslist">
+    {{#signers}}
+    <a href = '/petition/signers'> See all {{count}} signers </a>
+    {{/signers}}
+</div>
 
 </div>

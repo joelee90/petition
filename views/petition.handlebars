@@ -4,27 +4,30 @@
 
     <div>
         {{#material}}
-        <img src = "burger.jpg">
+        <img src="burger.jpg">
         {{/material}}
     </div>
 
 
-    <div>
+    <div class = "input">
         <form  method="post" action="/petition">
-            <input type = 'text' name='first'></input>
+            <input type='text' name='first' required></input>
             <span>
                 First Name
             </span>
-            <input type = 'text' name='last'></input>
+            <input type='text' name='last' required></input>
             <span>
                 Last Name
             </span>
-            <button type="submit" class = "subtmit-btn">Submit</button>
+            <input type="hidden" name="signature"></input>
+        </br>
+        </br>
+            <canvas id="canvas" width="750" height="200"></canvas>
+            <button type="button" id = "clear-btn">Clear</button>
+            <button type="submit" id = "subtmit-btn" class = "subtmit-btn">Submit</button>
         </form>
-
     </div>
 
-    <div>
         <span>Sign Here</span>
     </div>
 </div>

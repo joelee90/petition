@@ -1,0 +1,154 @@
+Last login: Sun Jul  7 12:56:55 on ttys000
+➜  ~ createdb practice
+zsh: command not found: createdb
+➜  ~ psql
+zsh: command not found: psql
+➜  ~ atom ~/.bash_profile
+➜  ~ psql
+zsh: command not found: psql
+➜  ~ source ~/.bash_profile
+
+🦄psql
+psql (11.4)
+Type "help" for help.
+
+jonghyeoklee=# SELECT * FROM signings;
+ERROR:  relation "signings" does not exist
+LINE 1: SELECT * FROM signings;
+                      ^
+jonghyeoklee=# psql signings;
+ERROR:  syntax error at or near "psql"
+LINE 1: psql signings;
+        ^
+jonghyeoklee=# signings
+jonghyeoklee-# createdb practice
+jonghyeoklee-# \q
+🦄pwd     
+/Users/jonghyeoklee
+🦄ls
+Applications                       Postman
+Desktop                            Public
+Documents                          Samsung
+Downloads                          curry-code
+Google 드라이브                curry-petition
+Library                            node_modules
+Movies                             캘리버 서재
+Music                              이종혁
+Pictures
+🦄cd curry-petition 
+🦄ls
+__mocks__                      petition-part1-instructions.md
+index.js                       petitionpart1.md
+material                       petitionpart1.txt
+node_modules                   signatures.sql
+notesforpetition.txt           static
+package-lock.json              utils
+package.json                   views
+pet.js
+🦄createdb practice
+🦄psql -d pract
+psql: FATAL:  database "pract" does not exist
+🦄psql -d practice
+psql (11.4)
+Type "help" for help.
+
+practice=# psql -d practice -f practice.sql
+practice-# psql -d practice -f practice.sql
+practice-# SELECT * FROM names;
+ERROR:  syntax error at or near "psql"
+LINE 1: psql -d practice -f practice.sql
+        ^
+practice=# SELECT * FROM names;
+ERROR:  relation "names" does not exist
+LINE 1: SELECT * FROM names;
+                      ^
+practice=# psql names;
+ERROR:  syntax error at or near "psql"
+LINE 1: psql names;
+        ^
+practice=# names
+practice-# psql names;
+ERROR:  syntax error at or near "names"
+LINE 1: names
+        ^
+practice=# \q
+🦄ls
+__mocks__                      petition-part1-instructions.md
+index.js                       petitionpart1.md
+material                       petitionpart1.txt
+node_modules                   practice.sql
+notesforpetition.txt           signatures.sql
+package-lock.json              static
+package.json                   utils
+pet.js                         views
+🦄psql
+psql (11.4)
+Type "help" for help.
+
+jonghyeoklee=# \q
+🦄psql -d practice.sql
+psql: FATAL:  database "practice.sql" does not exist
+🦄psql -d practice -f practice.sql
+psql:practice.sql:1: NOTICE:  table "names" does not exist, skipping
+DROP TABLE
+CREATE TABLE
+psql:practice.sql:12: ERROR:  relation "signings" does not exist
+LINE 1: INSERT INTO signings(first, last)
+                    ^
+🦄\q
+zsh: command not found: q
+🦄\q
+zsh: command not found: q
+🦄ls
+__mocks__                      petition-part1-instructions.md
+index.js                       petitionpart1.md
+material                       petitionpart1.txt
+node_modules                   practice.sql
+notesforpetition.txt           signatures.sql
+package-lock.json              static
+package.json                   utils
+pet.js                         views
+🦄psql
+psql (11.4)
+Type "help" for help.
+
+jonghyeoklee=# \q
+🦄psql names
+psql: FATAL:  database "names" does not exist
+🦄psql practice
+psql (11.4)
+Type "help" for help.
+
+practice=# \dt
+           List of relations
+ Schema | Name  | Type  |    Owner     
+--------+-------+-------+--------------
+ public | names | table | jonghyeoklee
+(1 row)
+
+practice=# SELECT * FROM names;
+ id | first | last | signature | created_at 
+----+-------+------+-----------+------------
+(0 rows)
+
+practice=# 
+
+
+🦄psql signatures -f signatures.sql
+
+* in terminal if you want update the data from js to db.
+
+-------------------------------------------------------
+PSQL command line
+
+Update sql(js) -> psql(terminal) :
+psql signatures -f signatures.sql (in terminal not in psql)
+
+SELECT * FROM name; : list all data in the table.
+
+DELETE FROM signings WHERE id > 11;
+
+-------------------------------------------------------
+
+
+

@@ -6,10 +6,10 @@ exports.getSignatures = function getSignatures() {
     return db.query('SELECT * FROM signings');
 };
 
-exports.addSignatures = function addSignatures(first, last) {
+exports.addSignatures = function addSignatures(first, last, signature) {
     return db.query(
-        `INSERT INTO signings (first, last) VALUES ($1, $2)`,
-        [ first, last ]);
+        `INSERT INTO signings (first, last, signature) VALUES ($1, $2, $3)`,
+        [ first, last, signature ]);
 };
 
 exports.getSignaturesNum = function getSignatures() {
@@ -33,6 +33,6 @@ exports.getSignaturesNum = function getSignatures() {
 //         `INSERT INTO cities (city, country) VALUES ($1, $2)`,
 //         [ city, country ]);
 // };
-//
-// //city = $1, country = $2
-// //$ used to prevent a type of attack called a SQL Injection.
+
+//city = $1, country = $2
+//$ used to prevent a type of attack called a SQL Injection.

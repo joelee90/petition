@@ -1,0 +1,48 @@
+* {
+    /* background-color: #01FF70 */
+}
+
+.petition {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+input {
+    font-size: 30px;
+}
+
+.input {
+    font-size: 30px;
+}
+
+.subtmit-btn {
+    width: 100px;
+    height: 40px;
+    margin: 10px;
+}
+-------------------------------------------------------------------------------
+.signed {
+    font-size: 40px;
+}
+-------------------------------------------------------------------------------
+.signers {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items:center;
+    text-align: center;
+}
+
+.allsigners {
+    width: 400px;
+    font-size: 25px;
+    flex-wrap: wrap;
+    justify-content: center;
+    text-align: center;
+}
+
+#canvas {
+    border: 2px solid black;
+}
