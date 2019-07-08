@@ -2,8 +2,6 @@ const canvas = document.getElementById("canvas");
 const clear = document.getElementById("clear-btn");
 const submit = document.getElementById('subtmit-btn');
 const ctx = canvas.getContext("2d");
-// let dataURL = canvas.toDataURL();
-// console.log("dataURL: ", dataURL);
 
 let position = { x: 0, y: 0 };
 

@@ -20,6 +20,8 @@ exports.getSignatureImage = function getSignatures(id) {
     return db.query(`SELECT signature FROM signings WHERE id = ${id}`);
 };
 
+
+//---------------encounter notes-----------------------------------------------
 //city = $1, country = $2
 //$ used to prevent a type of attack called a SQL Injection.
 
