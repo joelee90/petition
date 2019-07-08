@@ -1,0 +1,71 @@
+I saved the id into 'req.session.sigId'
+
+I want to use 'req.session.sigId'
+
+find the corresponding signature and render
+the signature(image) at signed handlebar.
+
+In the db, the last person signed up, is the last no.
+
+
+in db, there is id.
+
+how can i find a way to render the corresponding id that
+matches the signature.
+
+id = 29
+saved in req.session.sigId
+---------------------------------------------------------
+
+figured out the "id" of the current person.
+
+in db, find the signature img corresponding to id.
+
+
+link to signature is stored in db
+
+now i know the id, need to find it in db
+
+---------------------------------------------------------
+
+in app.post('/petition')
+
+Figure out the 'id' of the person who just signed up and save it into the cookie.
+
+req.session.sigId = results.rows[0].id;
+
+Go to db.js and make a new function which will find the corresponding siganture to the id.
+
+exports.getSignatureImage = function getSignature(id) {
+	return db.query(`SELECT signature FROM signings WHERE id = ${id}`);
+
+Finding the signature which corresponds to the the id. Put id as an argument.
+
+Go back to pet.js
+
+Use the getSignatureImage function after the results of db.getSignaturesNum().
+
+For getSignatureImage()'s argument, you want to put req.session.sigId which is the 'id'
+saved in the cookie. And again use that results. 
+If you console.log 'results' you get an object which has the url of the image (inside signature)
+
+This can be accessed by 'results.rows[0].signature'.  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

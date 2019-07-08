@@ -28,6 +28,7 @@ input {
 }
 -------------------------------------------------------------------------------
 .signers {
+    width: 100%;
     display: flex;
     justify-content: center;
     align-content: center;
@@ -36,7 +37,7 @@ input {
 }
 
 .allsigners {
-    width: 400px;
+    width: 100%;
     font-size: 25px;
     flex-wrap: wrap;
     justify-content: center;

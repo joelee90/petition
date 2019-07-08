@@ -8,12 +8,16 @@ exports.getSignatures = function getSignatures() {
 
 exports.addSignatures = function addSignatures(first, last, signature) {
     return db.query(
-        `INSERT INTO signings (first, last, signature) VALUES ($1, $2, $3)`,
+        `INSERT INTO signings (first, last, signature) VALUES ($1, $2, $3) RETURNING id`,
         [ first, last, signature ]);
 };
 
 exports.getSignaturesNum = function getSignatures() {
     return db.query('SELECT COUNT(*) FROM signings');
+};
+
+exports.getSignatureImage = function getSignatures(id) {
+    return db.query(`SELECT signature FROM signings WHERE id = ${id}`);
 };
 
 //city = $1, country = $2
