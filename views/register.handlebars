@@ -1,0 +1,38 @@
+<h1>Register Here</h1>
+
+<div class = "register">
+
+<div>
+    {{#material}}
+    <img src="burger.jpg">
+    {{/material}}
+</div>
+
+<div class = "input">
+    <p>
+    <form  method="post" action="/register">
+        <input type='text' name='firstname' required></input>
+        <span>
+            First Name
+        </span>
+        <input type='text' name='lastname' required></input>
+        <span>
+            Last Name
+        </span>
+        <input type='text' name='email' required></input>
+        <span>
+            Email
+        </span>
+        <input type='password' name='password' required></input>
+        <span>
+            Password
+        </span>
+        <!-- <input type="hidden" name="_csrf" value="{{csrfToken}}"> -->
+        <button type="submit" id = "signup-btn" class = "signup-btn">SIGN UP</button>
+    </form>
+    </p>
+</div>
+
+</div>
+
+<h3>If you are already a member, please <a href = '/login'>log in</a></h3>

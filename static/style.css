@@ -47,3 +47,16 @@ input {
 #canvas {
     border: 2px solid black;
 }
+-------------------------------------------------------------------------------
+
+.register {
+    width: 100%;
+    font-size: 25px;
+    flex-wrap: wrap;
+    justify-content: center;
+    text-align: center;
+}
+
+.input {
+    width:300px;
+}

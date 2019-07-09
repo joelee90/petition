@@ -20,6 +20,16 @@ exports.getSignatureImage = function getSignatures(id) {
     return db.query(`SELECT signature FROM signings WHERE id = ${id}`);
 };
 
+exports.addUsersInfo = function addUsersInfo(firstname, lastname, email, password) {
+    return db.query(
+        `INSERT INTO usersinfo (firstname, lastname, email, password) VALUES ($1, $2, $3, $4) RETURNING id`,
+        [ firstname, lastname, email, password ]);
+};
+
+exports.getUsersInfo = function getUsersInfo(email) {
+    return db.query(
+        'SELECT password FROM usersinfo WHERE email=$1' [email]);
+};
 
 //---------------encounter notes-----------------------------------------------
 //city = $1, country = $2
