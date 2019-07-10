@@ -1,12 +1,18 @@
 var spicedPg = require('spiced-pg');
+let db;
 
-var db = spicedPg('postgres:postgres:postgres@localhost:5432/signatures');
+if(process.env.DATABASE_URL) {
+    db = spicedPg(process.env.DATABASE_URL);
+} else {
+    db = spicedPg('postgres:postgres:postgres@localhost:5432/signatures');
+}
 
 exports.getSignatures = function getSignatures() {
     return db.query('SELECT * FROM signings');
 };
 
 exports.addSignatures = function addSignatures(first, last, signature) {
+    console.log('addSignatures in db.js');
     return db.query(
         `INSERT INTO signings (first, last, signature) VALUES ($1, $2, $3) RETURNING id`,
         [ first, last, signature ]);
@@ -28,7 +34,12 @@ exports.addUsersInfo = function addUsersInfo(firstname, lastname, email, passwor
 
 exports.getUsersInfo = function getUsersInfo(email) {
     return db.query(
-        'SELECT password FROM usersinfo WHERE email=$1' [email]);
+        'SELECT email FROM usersinfo WHERE email=$1', [email]);
+};
+
+exports.getPassword = function getPassword(email) {
+    return db.query (
+        'SELECT password FROM usersinfo WHERE email=$1', [email]);
 };
 
 //---------------encounter notes-----------------------------------------------

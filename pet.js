@@ -8,6 +8,14 @@ const bcrypt = require("./utils/bc");
 app.engine('handlebars', hb());
 app.set('view engine', 'handlebars');
 
+// app.use((req, res, next) => {
+//     if (req.session.sigId && req.url == "/petition") {
+//         res.redirect("/signed");
+//     } else {
+//         next();
+//     }
+// });
+
 app.use(require('cookie-parser')());
 app.use("/favicon.ico", (req,res) => res.sendStatus(404));
 const bodyParser = require('body-parser');
@@ -93,30 +101,41 @@ app.get('/login', function(req, res) {
 });
 
 app.post('/login', function(req, res) {
-    if(!req.session.usersInformation) {
+    console.log(req.body.email);
+    console.log('hello login');
 
-    } else {
-    
-        db.getUsersInfo(req.body.email)
-            .then(passcheck => {
-                console.log("req.body.email", req.body.email);
-                return bcrypt.checkPassword(
-                    req.body.password,
-                    passcheck.rows[0].password)
-                    .then(results => {
-                        if(results) {
-                            res.redirect('/petition');
-                        } else {
-                            res.render('/login', {
-                                invalid: true
-                            });
-                        }
-                    })
-                    .catch(err => {
-                        console.log("err.message", err.message);
-                    });
-            });
-    }
+
+
+
+
+
+    db.getUsersInfo(req.body.email)
+        .then(passcheck => {
+            console.log("req.body.email", req.body.email);
+            return bcrypt.checkPassword(
+                req.body.password,
+                passcheck.rows[0].password)
+                .then(results => {
+                    if(results) {
+                        res.redirect('/petition');
+                        //to app.get(/petiotn)
+                    } else {
+                        res.render('/login', {
+                            invalid: true
+                        });
+                    }
+                })
+                .catch(err => {
+                    console.log("err.message", err.message);
+                });
+        });
+
+
+
+
+
+
+
 });
 //in login, when user inputs email and password, should login.
 
@@ -130,6 +149,11 @@ app.get('/petition', function(req, res) {
 });
 
 app.post('/petition', function(req, res) {
+    console.log('petition');
+    console.log(req.body);
+
+    //try to access the database first, last name
+    //
 
     db.addSignatures(req.body.first, req.body.last, req.body.signature)
         .then(results => {
@@ -146,6 +170,7 @@ app.post('/petition', function(req, res) {
 
 app.get('/petition/signed', function(req,res) {
     let resultsNo;
+    console.log('resultsNo');
     db.getSignaturesNum()
         .then(results => {
             resultsNo = results.rows;
@@ -181,4 +206,4 @@ app.get('/petition/signers', function(req,res) {
 //     console.log("req.session.sigId: ", req.session.sigId);
 // } I was looping through just to see if id's were matching new users.
 
-app.listen(8080, console.log('listening'));
+app.listen(process.env.PORT || 8080, () => {console.log('listening');});
