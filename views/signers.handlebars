@@ -11,9 +11,21 @@
 <div class = "allsigners">
 
 {{#signers}}
+
 <p>
-{{first}} {{last}}
+
+{{#if homepage}}
+
+<h3> <a href={{homepage}}> | {{firstname}} | {{lastname}} </a> | {{age}} | <a href = '/petition/signers/{{city}}'> {{city}} </a></h3>
+
+{{else}}
+
+<h3>{{firstname}} {{lastname}}| {{age}} | <a href = '/petition/signers/{{city}}'>{{city}}</a></h3>
+
+{{/if}}
+
 </p>
+
 {{/signers}}
 
 </div>

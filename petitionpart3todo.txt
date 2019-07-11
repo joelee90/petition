@@ -62,7 +62,7 @@ YAY!!!
 	when register - save cookie
 	when signup for petition - save cookie
 
-  - In petition page, delete first, last bc user 
+  v - In petition page, delete first, last bc user 
 	submits them already when they register.
 
   - When login, check if the user already signed up
@@ -81,10 +81,85 @@ YAY!!!
 
   - see all signers need fix
 
+  - registration -> profile -> signature -> see all  
+
+  - when wrong email -> not working
 
 
+(Part 4)
+
+  v - display name(url), age, city(list all from same city)
+
+  v - when city -> list all ppl from same city
+	petition/signers/berlin(city)
+	petition/signers/perth(city)
+
+  - when u log in, must remember whether they signed or not
+<Change the query that retrieves information from the users table by email address so that it also gets data from the signatures table. Thus you will be able to know whether the user has signed the petition or not as soon as they log in.>
+
+	app.post('login')
+
+	login -> check if user signed petition or not
+	if user signed petition -> direct to 'see all signers'
+	if user did not sign petition -> direct to 'petition'
+
+	user -> register -> decide to sign or not 
+	(but if user did not sign up in the first place)
+
+	doesn't that mean all users already signed up?
+
+	- now i can check with email if the user signed.
+
+	
+	as soon as login (compare input password $ db password)
+	if correct redirect to '/petition' BUT!!!!
+	first check if users email has signature.
+
+	if signed -> to '/petition/signers'
+	if not signed -> '/petition'
 
 
+(Part 5)
 
+  - logged out -> only register, login
+
+  - logged in, signed -> only signers
+
+  - app.use(middleware)
+
+
+--------------------------TABLE-------------------------
+
+              List of relations
+ Schema |     Name     | Type  |    Owner     
+--------+--------------+-------+--------------
+ public | signings     | table | jonghyeoklee   userId, signature;
+ public | user_profile | table | jonghyeoklee   age, city, homepage, userId
+ public | usersinfo    | table | jonghyeoklee   first name, last name, email, password
+(3 rows)
+
+
+DROP TABLE
+CREATE TABLE signings
+ id | userid | signature | created_at 
+----+--------+-----------+------------
+(0 rows)
+
+DROP TABLE
+CREATE TABLE usersinfo
+ id | firstname | lastname | email | password | created_at 
+----+-----------+----------+-------+----------+------------
+(0 rows)
+
+CREATE TABLE user_profile
+ id | age | city | homepage | userid | created_at 
+----+-----+------+----------+--------+------------
+(0 rows)
+
+1. signature.sql
+2. db.js
+3. index.js app.get
+
+---------------------------------------------------------
 
 

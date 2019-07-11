@@ -36,12 +36,64 @@ exports.getPassword = function getPassword(email) {
         'SELECT email, password FROM usersinfo WHERE email=$1', [email]);
 };
 
-exports.addUsersProfile = function addUsersProfile(age, city, homepage) {
+exports.addUsersProfile = function addUsersProfile(age, city, homepage, userId) {
     return db.query(
-        `INSERT INTO user_profile (age, city, homepage) VALUES ($1, $2, $3) RETURNING id`,
-        [ age, city, homepage ]);
+        `INSERT INTO user_profile (age, city, homepage, userId) VALUES ($1, $2, $3, $4) RETURNING id`,
+        [ age, city, homepage, userId ]);
 };
 
+exports.getUserProfile = function () {
+    return db.query(
+        `SELECT
+        usersinfo.firstname AS firstname,
+        usersinfo.lastname AS lastname,
+        user_profile.age AS age,
+        user_profile.city AS city,
+        user_profile.homepage AS homepage
+        FROM usersinfo
+        LEFT JOIN signings
+        ON signings.userId = userId
+        LEFT JOIN user_profile
+        ON signings.userId = user_profile.userId
+        `
+    );
+
+};
+
+exports.getSignersByCity = function (city) {
+    return db.query (
+        `
+        SELECT
+        usersinfo.firstname AS firstname,
+        usersinfo.lastname AS lastname,
+        user_profile.age AS age,
+        user_profile.city AS city,
+        user_profile.homepage AS homepage
+        FROM usersinfo
+        LEFT JOIN signings
+        ON signings.userId = userId
+        LEFT JOIN user_profile
+        ON signings.userId = user_profile.userId
+        WHERE LOWER(city) = LOWER($1)`,
+        [city]
+    );
+};
+
+
+exports.getEmailToCheckSignature = function (email) {
+    return db.query (
+        `
+        SELECT
+        signings.signature AS signature,
+        usersinfo.email AS email
+        FROM signings
+        LEFT JOIN usersinfo
+        ON signings.userId = usersinfo.id
+        WHERE email = $1,
+        `
+            [email]
+    );
+};
 
 //---------------encounter notes-----------------------------------------------
 //city = $1, country = $2

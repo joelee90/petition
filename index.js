@@ -8,14 +8,6 @@ const bcrypt = require("./utils/bc");
 app.engine('handlebars', hb());
 app.set('view engine', 'handlebars');
 
-// app.use((req, res, next) => {
-//     if (req.session.sigId && req.url == "/petition") {
-//         res.redirect("/signed");
-//     } else {
-//         next();
-//     }
-// });
-
 app.use(require('cookie-parser')());
 app.use("/favicon.ico", (req,res) => res.sendStatus(404));
 const bodyParser = require('body-parser');
@@ -75,10 +67,10 @@ app.post('/register', function(req, res) {
             req.body.email,
             pass
         ).then(results => {
-            console.log("req.body: ",req.body);
-            console.log("results: ",results);
+            // console.log("req.body: ",req.body);
+            // console.log("results: ",results);
             req.session.usersInformation = results.rows[0].id;
-            res.redirect('/petition');
+            res.redirect('/profile');
         })
             .catch(err => {
                 console.log("err no input: ", err.message);
@@ -115,9 +107,18 @@ app.post('/login', function(req, res) {
                     req.body.password,
                     passcheck.rows[0].password)
                     .then(results => {
+                        console.log("results: ", results);
                         if(results) {
-                            res.redirect('/petition');
-                            //to app.get(/petition)
+                            // db.getEmailToCheckSignature(req.body.email)
+                            //
+                            //     .then(results => {
+                            //         console.log(results);
+                            //         if(results) {
+                            //             res.redirect('/petition/signers');
+                            //         } else
+                            //             res.redirect('/petition');
+                            //     })
+                            //     .catch(err => console.log(err));
                         } else {
                             res.render('login', {
                                 message: true
@@ -128,13 +129,17 @@ app.post('/login', function(req, res) {
         })
         .catch(err => {
             console.log("err.message", err.message);
+            res.render('login', {
+                message: true
+            });
+
         });
 });
 //in login, when user inputs email and password, should login.
 
 //-------------------------part 3----------------------------------------------
 
-//-------------------------part 4----------------------------------------------
+//-------------------------part 4 (1/2)-----------------------------------------
 app.get('/profile', function(req, res) {
     res.render('profile', {
         title: "Profile"
@@ -142,16 +147,33 @@ app.get('/profile', function(req, res) {
 });
 
 app.post('/profile', function(req, res) {
-    db.addUsersProfile(req.body.age, req.body.city, req.body.homepage)
+    return db.addUsersProfile(req.body.age, req.body.city, req.body.homepage, req.session.usersInformation)
         .then(() => {
             // req.session.sigId = results.rows[0].id;
-            res.redirect('/petition/signed');
+            res.redirect('/petition');
         })
         .catch(err => {
             console.log("err in app.post profile: ", err.message);
         });
 });
-//-------------------------part 4----------------------------------------------
+//-------------------------part 4 (1/2)-----------------------------------------
+
+
+//-------------------------part 4 (2/2)-----------------------------------------
+
+app.get("/petition/signers/:city", (req, res) => {
+    db.getSignersByCity(req.params.city)
+        .then(results => {
+            res.render("signers", {
+                signers: results.rows
+            });
+        })
+        .catch(error =>  {
+            console.log("error:", error);
+        });
+});
+
+//-------------------------part 4 (2/2)-----------------------------------------
 
 app.get('/petition', function(req, res) {
     res.render('petition', {
@@ -167,7 +189,7 @@ app.post('/petition', function(req, res) {
             message: true
         });
     } else {
-        db.addSignatures(req.body.userId, req.body.signature)
+        db.addSignatures(req.session.usersInformation, req.body.signature)
             .then(results => {
                 req.session.sigId = results.rows[0].id;
                 res.redirect('/petition/signed');
@@ -206,7 +228,7 @@ app.get('/petition/signed', function(req,res) {
 //shows total number of people who signed up for the petition.
 
 app.get('/petition/signers', function(req,res) {
-    db.getSignatures()
+    db.getUserProfile()
         .then(results => {
             res.render('signers', {
                 title: "Signers",
@@ -217,9 +239,7 @@ app.get('/petition/signers', function(req,res) {
 });
 //shows the list of people signed up for the petition.
 
-// for(let i = 0; i < results.rows.length; i++) {
-//     req.session.sigId = results.rows[i].id;
-//     console.log("req.session.sigId: ", req.session.sigId);
-// } I was looping through just to see if id's were matching new users.
 
+// db.getSignersByCity().then(results => {console.log("getSignersByCity: ", results);});
+// db.getUserProfile().then(results => { console.log(results);});
 app.listen(process.env.PORT || 8080, () => {console.log('listening');});
