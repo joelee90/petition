@@ -68,22 +68,22 @@ YAY!!!
   - When login, check if the user already signed up
 	for the petition or not.
 
-  - direct to petition when register/login
+  v - direct to petition when register/login
 
   - Using 'clear' does not completely erased the canvas
 	(which stores empty canvas without signature)
 
   -logout redirect to registration page
 
-  - after registration - direct users to profile
+  v - after registration - direct users to profile
 
-  -login - petition - after signature - not redirect
+  v -login - petition - after signature - not redirect
 
-  - see all signers need fix
+  v - see all signers need fix
 
   - registration -> profile -> signature -> see all  
 
-  - when wrong email -> not working
+  v - when wrong email -> not working
 
 
 (Part 4)
@@ -161,5 +161,6 @@ CREATE TABLE user_profile
 3. index.js app.get
 
 ---------------------------------------------------------
+
 
 

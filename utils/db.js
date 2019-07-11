@@ -82,18 +82,26 @@ exports.getSignersByCity = function (city) {
 
 exports.getEmailToCheckSignature = function (email) {
     return db.query (
-        `
-        SELECT
-        signings.signature AS signature,
-        usersinfo.email AS email
-        FROM signings
-        LEFT JOIN usersinfo
-        ON signings.userId = usersinfo.id
-        WHERE email = $1,
-        `
+        `SELECT * FROM usersinfo LEFT JOIN signings USING(id) WHERE usersinfo.email = $1,`
             [email]
     );
 };
+
+
+// exports.getEmailToCheckSignature = function (email) {
+//     return db.query (
+//         `
+//         SELECT
+//         signings.signature AS signature,
+//         usersinfo.email AS email
+//         FROM signings
+//         LEFT JOIN usersinfo
+//         ON signings.userId = usersinfo.id
+//         WHERE email = $1,
+//         `
+//             [email]
+//     );
+// };
 
 //---------------encounter notes-----------------------------------------------
 //city = $1, country = $2

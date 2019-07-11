@@ -5,6 +5,8 @@ const hb = require('express-handlebars');
 const db = require("./utils/db");
 const bcrypt = require("./utils/bc");
 
+// const {requireSigniture} = require("./middleware");
+
 app.engine('handlebars', hb());
 app.set('view engine', 'handlebars');
 
@@ -107,22 +109,15 @@ app.post('/login', function(req, res) {
                     req.body.password,
                     passcheck.rows[0].password)
                     .then(results => {
-                        console.log("results: ", results);
                         if(results) {
-                            // db.getEmailToCheckSignature(req.body.email)
-                            //
-                            //     .then(results => {
-                            //         console.log(results);
-                            //         if(results) {
-                            //             res.redirect('/petition/signers');
-                            //         } else
-                            //             res.redirect('/petition');
-                            //     })
-                            //     .catch(err => console.log(err));
-                        } else {
-                            res.render('login', {
-                                message: true
-                            });
+                            req.session.sigId = passcheck.rows[0].id;
+                            if(passcheck.rows[0].signature) {
+                                res.redirect('/petition/signers');
+                            } else {
+                                res.render('login', {
+                                    message: true
+                                });
+                            }
                         }
                     });
             }
@@ -136,6 +131,30 @@ app.post('/login', function(req, res) {
         });
 });
 //in login, when user inputs email and password, should login.
+// db.getEmailToCheckSignature(req.body.email)
+//     .then(val => {
+//         if(val.rows[0].length > 0) {
+//             bcrypt.checkPassword(
+//                 req.body.password,
+//                 val.rows[0].password)
+//                 .then(results => {
+//                     if(results) {
+//                         req.session.sigId = val.rows[0].id;
+//                         if(val.rows[0].signature) {
+//                             res.redirect('/petition/signers');
+//                         } else {
+//                             res.render('login', {
+//                                 message: true
+//                             });
+//                         }
+//                     } else {
+//                         res.render('login', {
+//                             message: true
+//                         });
+//                     }
+//                 });
+//         }
+//     }) trial
 
 //-------------------------part 3----------------------------------------------
 
@@ -164,6 +183,7 @@ app.post('/profile', function(req, res) {
 app.get("/petition/signers/:city", (req, res) => {
     db.getSignersByCity(req.params.city)
         .then(results => {
+            console.log("req.params.city", req.params.city);
             res.render("signers", {
                 signers: results.rows
             });
@@ -239,7 +259,7 @@ app.get('/petition/signers', function(req,res) {
 });
 //shows the list of people signed up for the petition.
 
-
+// db.getEmailToCheckSignature().then(email => console.log("getEmailToCheckSignature", email));
 // db.getSignersByCity().then(results => {console.log("getSignersByCity: ", results);});
 // db.getUserProfile().then(results => { console.log(results);});
 app.listen(process.env.PORT || 8080, () => {console.log('listening');});
