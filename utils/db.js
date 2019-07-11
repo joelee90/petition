@@ -11,19 +11,18 @@ exports.getSignatures = function getSignatures() {
     return db.query('SELECT * FROM signings');
 };
 
-exports.addSignatures = function addSignatures(first, last, signature) {
-    console.log('addSignatures in db.js');
+exports.addSignatures = function addSignatures(userId, signature) {
     return db.query(
-        `INSERT INTO signings (first, last, signature) VALUES ($1, $2, $3) RETURNING id`,
-        [ first, last, signature ]);
+        `INSERT INTO signings (userId, signature) VALUES ($1, $2) RETURNING id`,
+        [ userId, signature ]);
 };
 
 exports.getSignaturesNum = function getSignatures() {
     return db.query('SELECT COUNT(*) FROM signings');
 };
 
-exports.getSignatureImage = function getSignatures(id) {
-    return db.query(`SELECT signature FROM signings WHERE id = ${id}`);
+exports.getSignatureImage = function getSignatureImage(id) {
+    return db.query(`SELECT signature FROM signings WHERE id = $1`, [id]);
 };
 
 exports.addUsersInfo = function addUsersInfo(firstname, lastname, email, password) {
@@ -32,15 +31,17 @@ exports.addUsersInfo = function addUsersInfo(firstname, lastname, email, passwor
         [ firstname, lastname, email, password ]);
 };
 
-exports.getUsersInfo = function getUsersInfo(email) {
-    return db.query(
-        'SELECT email FROM usersinfo WHERE email=$1', [email]);
-};
-
 exports.getPassword = function getPassword(email) {
     return db.query (
-        'SELECT password FROM usersinfo WHERE email=$1', [email]);
+        'SELECT email, password FROM usersinfo WHERE email=$1', [email]);
 };
+
+exports.addUsersProfile = function addUsersProfile(age, city, homepage) {
+    return db.query(
+        `INSERT INTO user_profile (age, city, homepage) VALUES ($1, $2, $3) RETURNING id`,
+        [ age, city, homepage ]);
+};
+
 
 //---------------encounter notes-----------------------------------------------
 //city = $1, country = $2

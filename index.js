@@ -68,7 +68,6 @@ app.get('/register', function(req, res) {
 });
 
 app.post('/register', function(req, res) {
-
     bcrypt.hashPassword(req.body.password).then(pass => {
         return db.addUsersInfo(
             req.body.firstname,
@@ -89,57 +88,70 @@ app.post('/register', function(req, res) {
 
 app.get('/login', function(req, res) {
 
-    // if(!req.session.usersInformation) {
-    res.render('login', {
-        title: "Login",
-        material: imageDir
-    });
-    // } else if (!req.session.sigId) {
-    //     res.redirect('/petition');
-    // } else
-    //     res.redirect('/petition/signed');
+    if(!req.session.usersInformation) {
+        res.render('login', {
+            title: "Login",
+            material: imageDir
+        });
+    } else if (!req.session.sigId) {
+        res.redirect('/petition');
+    } else
+        res.redirect('/petition/signed');
 });
 
 app.post('/login', function(req, res) {
-    console.log(req.body.email);
-    console.log('hello login');
 
     db.getPassword(req.body.email)
         .then(passcheck => {
-
-            if(passcheck.rows.length == 0) {
-                res.render('/login', {
-                    noEmai: true
-                });
+            if(passcheck.rows[0].usersInformation){
+                req.session.usersInformation = passcheck.rows[0].id;
             }
-            return bcrypt.checkPassword(
-                req.body.password,
-                passcheck.rows[0].password)
-                .then(results => {
-                    if(results) {
-                        res.redirect('/petition');
-                        //to app.get(/petiotn)
-                    } else {
-                        res.render('/login', {
-                            invalid: true
-                        });
-                    }
-                })
-                .catch(err => {
-                    console.log("err.message", err.message);
+            else if(passcheck.rows[0].length == 0) {
+                res.render('login', {
+                    message: true
                 });
+            } else {
+                return bcrypt.checkPassword(
+                    req.body.password,
+                    passcheck.rows[0].password)
+                    .then(results => {
+                        if(results) {
+                            res.redirect('/petition');
+                            //to app.get(/petition)
+                        } else {
+                            res.render('login', {
+                                message: true
+                            });
+                        }
+                    });
+            }
+        })
+        .catch(err => {
+            console.log("err.message", err.message);
         });
-
-
-
-
-
-
-
 });
 //in login, when user inputs email and password, should login.
 
 //-------------------------part 3----------------------------------------------
+
+//-------------------------part 4----------------------------------------------
+app.get('/profile', function(req, res) {
+    res.render('profile', {
+        title: "Profile"
+    });
+});
+
+app.post('/profile', function(req, res) {
+    db.addUsersProfile(req.body.age, req.body.city, req.body.homepage)
+        .then(() => {
+            // req.session.sigId = results.rows[0].id;
+            res.redirect('/petition/signed');
+        })
+        .catch(err => {
+            console.log("err in app.post profile: ", err.message);
+        });
+});
+//-------------------------part 4----------------------------------------------
 
 app.get('/petition', function(req, res) {
     res.render('petition', {
@@ -149,43 +161,47 @@ app.get('/petition', function(req, res) {
 });
 
 app.post('/petition', function(req, res) {
-    console.log('petition');
-    console.log(req.body);
 
-    //try to access the database first, last name
-    //
-
-    db.addSignatures(req.body.first, req.body.last, req.body.signature)
-        .then(results => {
-            req.session.sigId = results.rows[0].id;
-            // console.log("req.session.sigId:", req.session.sigId);
-            //figured out the id of the new signer.
-            res.redirect('/petition/signed');
-        })
-        .catch(err => {
-            console.log("err no input: ", err.message);
+    if(req.body.signature == "") {
+        res.render('petition', {
+            message: true
         });
+    } else {
+        db.addSignatures(req.body.userId, req.body.signature)
+            .then(results => {
+                req.session.sigId = results.rows[0].id;
+                res.redirect('/petition/signed');
+            })
+            .catch(err => {
+                console.log("err no input: ", err.message);
+            });
+    }
 });
 
 
 app.get('/petition/signed', function(req,res) {
     let resultsNo;
-    console.log('resultsNo');
     db.getSignaturesNum()
         .then(results => {
             resultsNo = results.rows;
-            // console.log("results.rows.no: ", results.rows);
-            return db.getSignatureImage(req.session.sigId).then(results => {
-                // console.log("urlresults:", results);
-                res.render('signed', {
-                    title: "Signed",
-                    material: imageDir,
-                    count: resultsNo[0].count,
-                    sigimage: results.rows[0].signature
+            return db.getSignatureImage(req.session.sigId)
+                .then(results => {
+                    if(results.rows.length == 0) {
+                        res.redirect('/petition');
+                    } else {
+                        res.render('signed', {
+                            title: "Signed",
+                            material: imageDir,
+                            count: resultsNo[0].count,
+                            sigimage: results.rows[0].signature
+                        });
+                    }
+
                 });
-            });
         })
-        .catch();
+        .catch(err => {
+            console.log('err in app.get petition signed: ', err.message);
+        });
 });
 //shows total number of people who signed up for the petition.
 

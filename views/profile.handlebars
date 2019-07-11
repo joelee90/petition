@@ -1,0 +1,26 @@
+<h1>Tell Us More About Yourself</h1>
+
+<div>
+    {{#material}}
+    <img src="burger.jpg">
+    {{/material}}
+</div>
+
+<p>
+<form  method="post" action="/profile">
+    <input type='text' name='age'></input>
+    <span>
+        Age
+    </span>
+    <input type='text' name='city'></input>
+    <span>
+        City
+    </span>
+    <input type='text' name='homepage'></input>
+    <span>
+        Homepage
+    </span>
+    <!-- <input type="hidden" name="_csrf" value="{{csrfToken}}"> -->
+    <button type="submit" id = "continue" class = "continue">CONTINUE</button>
+</form>
+</p>

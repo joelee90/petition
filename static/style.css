@@ -60,3 +60,14 @@ input {
 .input {
     width:300px;
 }
+
+
+.message {
+    visibility: hidden;
+    margin: 10px;
+}
+
+.message.on {
+    visibility: visible;
+    margin: 10px;
+}

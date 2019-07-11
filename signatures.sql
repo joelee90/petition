@@ -2,14 +2,13 @@ DROP TABLE IF EXISTS signings;
 
 CREATE TABLE signings(
     id SERIAL PRIMARY KEY,
-    first VARCHAR(100) NOT NULL,
-    last VARCHAR(100) NOT NULL,
+    userId INTEGER,
     signature TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-INSERT INTO signings(first, last, signature)
-VALUES ('Johnny', 'Depp', '');
+INSERT INTO signings(userId, signature)
+VALUES ('', '');
 
 SELECT * FROM signings;
 
@@ -27,3 +26,18 @@ SELECT * FROM usersinfo;
 
 INSERT INTO usersinfo(firstname, lastname, email, password)
 VALUES ('Johnny', 'Depp', 'johnny@spiced.com', 'qq');
+
+
+-- DROP TABLE IF EXISTS user_profile;
+CREATE TABLE user_profile(
+    id SERIAL PRIMARY KEY,
+    age INTEGER,
+    city VARCHAR(250) NOT NULL,
+    homepage VARCHAR(250) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+SELECT * FROM user_profile;
+
+INSERT INTO user_profile(age, city, homepage)
+VALUES (23, 'Berlin', 'johnnyspiced.com');

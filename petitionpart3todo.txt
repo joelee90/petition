@@ -1,0 +1,90 @@
+TO-DO
+
+if password / email doesn't match 
+
+redirect to the login page
+
+
+<COOKIES>
+app.post("/petition")
+req.session.sigId = results.rows[0].id;
+
+app.post('/register')
+req.session.usersInformation = results.rows[0].id;
+
+app.post('/login')
+req.session.usersInformation = results.rows[0].id;
+
+app.post('profile')
+req.session.sigId = results.rows[0].id;
+(saving cookies)
+
+------two different cookies for different things--
+
+after profile(age, city, url) -> direct to
+
+signed page which shows the list of all.
+
+---------------------------------------------------
+** if there aren't any signers
+
+check whether the signature part is empty or not
+bc empty signature still counts as a signature
+which shouldn't
+
+only those who signed the signature will be able to
+view the list
+
+input signature - where signature.img is stored.
+
+saving the omg should happened after sth 
+actually has been drawn on canvas.
+
+the problem is that the empty canvas is still being
+saved as an image which shouldn't happen.
+
+
+draw -> save 
+saves what's drawn.
+
+result of draw
+
+YAY!!!
+---------------------------------------------------
+!!FIX!! (Part 3)
+
+  v - Login with wrong email not messaging to 
+	'login again'
+	(err.message Cannot read property 'length' of 	
+	undefined)
+ 
+  - know where cookie is saved and why
+	when register - save cookie
+	when signup for petition - save cookie
+
+  - In petition page, delete first, last bc user 
+	submits them already when they register.
+
+  - When login, check if the user already signed up
+	for the petition or not.
+
+  - direct to petition when register/login
+
+  - Using 'clear' does not completely erased the canvas
+	(which stores empty canvas without signature)
+
+  -logout redirect to registration page
+
+  - after registration - direct users to profile
+
+  -login - petition - after signature - not redirect
+
+  - see all signers need fix
+
+
+
+
+
+
+
+
