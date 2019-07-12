@@ -122,11 +122,10 @@ app.get('/login', function(req, res) {
 });
 
 app.post("/login", (req, res) => {
-
     db.getEmailToCheckSignature(req.body.email)
         .then(val => {
-            console.log('val1', val);
-
+            console.log('val', val);
+            //check if email exists in the db
             if (val.rowCount > 0) {
                 bcrypt.checkPassword(req.body.password, val.rows[0].password)
                     .then(matched => {
@@ -134,18 +133,22 @@ app.post("/login", (req, res) => {
                             req.session.usersInformation = val.rows[0].id;
                             if (!val.rows[0].signature) {
                                 res.redirect("/petition");
-                            } else
-                            {
+                            } else {
                                 res.redirect("/petition/signers");
                             }
-                        }
-                        else {
-                            res.render("login");
+                        } else {
+                            res.render('login', {
+                                message: true
+                            });
                         }
                     })
                     .catch(err => {
                         console.log(err);
                     });
+            }  else if(!val.rowAsArray) {
+                res.render("register", {
+                    message: true
+                });
             } else {
                 res.redirect("/petition");
             }
@@ -203,7 +206,6 @@ app.get('/profile/edit', (req, res) => {
     });
 });
 
-
 //-------------------------part 5 -----------------------------------------
 
 
@@ -220,18 +222,14 @@ app.post('/petition', function(req, res) {
             message: true
         });
     } else {
-        if(!req.session.usersInformation) {
-            db.addSignatures(req.body.userId, req.body.signature)
-                .then(val => {
-                    req.session.usersInformation = val.rows[0].id;
-                    res.redirect('/petition/signed');
-                })
-                .catch(err => {
-                    console.log("err no input: ", err.message);
-                });
-        } else
-            res.redirect('/petition/signers');
-
+        db.addSignatures(req.session.usersInformation, req.body.signature)
+            .then(results=> {
+                req.session.usersInformation = results.rows[0].id;
+                res.redirect('/petition/signed');
+            })
+            .catch(err => {
+                console.log("err no input: ", err.message);
+            });
     }
 });
 
@@ -240,7 +238,7 @@ app.get('/petition/signed', function(req,res) {
     db.getSignaturesNum()
         .then(results => {
             resultsNo = results.rows;
-            return db.getSignatureImage(req.session.sigId)
+            return db.getSignatureImage(req.session.usersInformation)
                 .then(results => {
                     if(results.rows.length == 0) {
                         res.redirect('/petition');

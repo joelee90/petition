@@ -173,5 +173,19 @@ req.cookie.userInformation = app.post('/register)
 req.cookie.userInformation = app.post('/login)
 req.cookie.userInformation = app.post('/petition)
 
+value of login rows []
 
+----------------------Part 4----------------------
+  
+  - wrong email, wrong password -> login possible
+  - correct email, wrong password => no login
+
+  - check if email is registered, if not -> direct to register
+  - 
+  
+SELECT * FROM usersinfo FULL OUTER JOIN signings ON signings.userId = usersinfo.id;
+
+
+if directly go to petition -> should redirect to register?
+- change redirect to register if user wants to go to petition
 

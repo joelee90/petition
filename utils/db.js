@@ -79,10 +79,17 @@ exports.getSignersByCity = function (city) {
 
 exports.getEmailToCheckSignature = function (email) {
     return db.query (
-        `SELECT * FROM signings LEFT JOIN usersinfo ON signings.userId = usersinfo.id WHERE usersinfo.email = $1`,
+        `SELECT usersinfo.email, usersinfo.password, signings.signature FROM usersinfo FULL OUTER JOIN signings ON usersinfo.id = signings.userid WHERE usersinfo.email = $1`,
         [email]
     );
 };
+
+// exports.getEmailToCheckSignature = function (email) {
+//     return db.query (
+//         `SELECT * FROM signings LEFT JOIN usersinfo ON signings.userId = usersinfo.id WHERE usersinfo.email = $1`,
+//         [email]
+//     );
+// };
 
 exports.getPassword = function getPassword(email) {
     return db.query (

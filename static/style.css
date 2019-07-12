@@ -61,7 +61,6 @@ input {
     width:300px;
 }
 
-
 .message {
     visibility: hidden;
     margin: 10px;
@@ -75,9 +74,5 @@ input {
 -------------------------------------------------------------------------------
 
 .edit {
-    width: 100%;
-    font-size: 25px;
-    flex-wrap: wrap;
-    justify-content: center;
-    text-align: center;
+    color: blue;
 }
