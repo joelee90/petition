@@ -162,5 +162,16 @@ CREATE TABLE user_profile
 
 ---------------------------------------------------------
 
+ bb registered -> log out -> log in -> signature -> error
+
+ registered bb -> log in -> signature -> update signature
+
+
+check id if they have one in signature table
+
+req.cookie.userInformation = app.post('/register)
+req.cookie.userInformation = app.post('/login)
+req.cookie.userInformation = app.post('/petition)
+
 
 

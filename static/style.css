@@ -71,3 +71,13 @@ input {
     visibility: visible;
     margin: 10px;
 }
+
+-------------------------------------------------------------------------------
+
+.edit {
+    width: 100%;
+    font-size: 25px;
+    flex-wrap: wrap;
+    justify-content: center;
+    text-align: center;
+}

@@ -1,5 +1,5 @@
 const express = require('express');
-const app = express();
+const app = (exports.app = express());
 const fs = require('fs');
 const hb = require('express-handlebars');
 const db = require("./utils/db");
@@ -27,6 +27,34 @@ app.use(function(req, res, next) {
     // res.locals.csrfToken = req.csrfToken();
     next();
 });
+//--------------------demo routes-----------------------
+
+app.get('/home', (req, res) => {
+    res.send('<h1>welcome</h1>');
+});
+
+app.get('/product', (req, res) => {
+    res.send(
+        `
+        <html>
+            <h1>buy</h1>
+            <form method = 'POST'>
+                <button>yes</button>
+            </form>
+        </html>
+        `
+    );
+});
+
+// <input type = 'hidden' name= '_csrf'
+// value='${req.csrfToken()}'>
+
+app.post('/product', (req, res) => {
+    req.session.wouldLikeToBuy = true;
+    res.redirect('/home');
+});
+
+//--------------------demo routes-----------------------
 
 //--------------------cookie-----------------------
 let cookieSession = require('cookie-session');
@@ -87,74 +115,46 @@ app.get('/login', function(req, res) {
             title: "Login",
             material: imageDir
         });
-    } else if (!req.session.sigId) {
+    } else if (!req.session.usersInformation) {
         res.redirect('/petition');
     } else
         res.redirect('/petition/signed');
 });
 
-app.post('/login', function(req, res) {
+app.post("/login", (req, res) => {
 
-    db.getPassword(req.body.email)
-        .then(passcheck => {
-            if(passcheck.rows[0].usersInformation){
-                req.session.usersInformation = passcheck.rows[0].id;
-            }
-            else if(passcheck.rows[0].length == 0) {
-                res.render('login', {
-                    message: true
-                });
-            } else {
-                return bcrypt.checkPassword(
-                    req.body.password,
-                    passcheck.rows[0].password)
-                    .then(results => {
-                        if(results) {
-                            req.session.sigId = passcheck.rows[0].id;
-                            if(passcheck.rows[0].signature) {
-                                res.redirect('/petition/signers');
-                            } else {
-                                res.render('login', {
-                                    message: true
-                                });
+    db.getEmailToCheckSignature(req.body.email)
+        .then(val => {
+            console.log('val1', val);
+
+            if (val.rowCount > 0) {
+                bcrypt.checkPassword(req.body.password, val.rows[0].password)
+                    .then(matched => {
+                        if (matched) {
+                            req.session.usersInformation = val.rows[0].id;
+                            if (!val.rows[0].signature) {
+                                res.redirect("/petition");
+                            } else
+                            {
+                                res.redirect("/petition/signers");
                             }
                         }
+                        else {
+                            res.render("login");
+                        }
+                    })
+                    .catch(err => {
+                        console.log(err);
                     });
+            } else {
+                res.redirect("/petition");
             }
         })
         .catch(err => {
-            console.log("err.message", err.message);
-            res.render('login', {
-                message: true
-            });
-
+            console.log("Error Message: ", err);
         });
 });
 //in login, when user inputs email and password, should login.
-// db.getEmailToCheckSignature(req.body.email)
-//     .then(val => {
-//         if(val.rows[0].length > 0) {
-//             bcrypt.checkPassword(
-//                 req.body.password,
-//                 val.rows[0].password)
-//                 .then(results => {
-//                     if(results) {
-//                         req.session.sigId = val.rows[0].id;
-//                         if(val.rows[0].signature) {
-//                             res.redirect('/petition/signers');
-//                         } else {
-//                             res.render('login', {
-//                                 message: true
-//                             });
-//                         }
-//                     } else {
-//                         res.render('login', {
-//                             message: true
-//                         });
-//                     }
-//                 });
-//         }
-//     }) trial
 
 //-------------------------part 3----------------------------------------------
 
@@ -195,6 +195,18 @@ app.get("/petition/signers/:city", (req, res) => {
 
 //-------------------------part 4 (2/2)-----------------------------------------
 
+//-------------------------part 5 -----------------------------------------
+
+app.get('/profile/edit', (req, res) => {
+    res.render('edit', {
+        title: "Edit"
+    });
+});
+
+
+//-------------------------part 5 -----------------------------------------
+
+
 app.get('/petition', function(req, res) {
     res.render('petition', {
         title: "No Pickles",
@@ -203,23 +215,25 @@ app.get('/petition', function(req, res) {
 });
 
 app.post('/petition', function(req, res) {
-
     if(req.body.signature == "") {
         res.render('petition', {
             message: true
         });
     } else {
-        db.addSignatures(req.session.usersInformation, req.body.signature)
-            .then(results => {
-                req.session.sigId = results.rows[0].id;
-                res.redirect('/petition/signed');
-            })
-            .catch(err => {
-                console.log("err no input: ", err.message);
-            });
+        if(!req.session.usersInformation) {
+            db.addSignatures(req.body.userId, req.body.signature)
+                .then(val => {
+                    req.session.usersInformation = val.rows[0].id;
+                    res.redirect('/petition/signed');
+                })
+                .catch(err => {
+                    console.log("err no input: ", err.message);
+                });
+        } else
+            res.redirect('/petition/signers');
+
     }
 });
-
 
 app.get('/petition/signed', function(req,res) {
     let resultsNo;
@@ -262,4 +276,6 @@ app.get('/petition/signers', function(req,res) {
 // db.getEmailToCheckSignature().then(email => console.log("getEmailToCheckSignature", email));
 // db.getSignersByCity().then(results => {console.log("getSignersByCity: ", results);});
 // db.getUserProfile().then(results => { console.log(results);});
-app.listen(process.env.PORT || 8080, () => {console.log('listening');});
+if (require.main == module) {
+    app.listen(process.env.PORT || 8080, () => {console.log('listening');});
+}

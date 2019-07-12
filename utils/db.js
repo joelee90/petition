@@ -13,7 +13,7 @@ exports.getSignatures = function getSignatures() {
 
 exports.addSignatures = function addSignatures(userId, signature) {
     return db.query(
-        `INSERT INTO signings (userId, signature) VALUES ($1, $2) RETURNING id`,
+        `INSERT INTO signings (userId, signature) VALUES ($1, $2) RETURNING Id`,
         [ userId, signature ]);
 };
 
@@ -31,10 +31,7 @@ exports.addUsersInfo = function addUsersInfo(firstname, lastname, email, passwor
         [ firstname, lastname, email, password ]);
 };
 
-exports.getPassword = function getPassword(email) {
-    return db.query (
-        'SELECT email, password FROM usersinfo WHERE email=$1', [email]);
-};
+
 
 exports.addUsersProfile = function addUsersProfile(age, city, homepage, userId) {
     return db.query(
@@ -82,12 +79,21 @@ exports.getSignersByCity = function (city) {
 
 exports.getEmailToCheckSignature = function (email) {
     return db.query (
-        `SELECT * FROM usersinfo LEFT JOIN signings USING(id) WHERE usersinfo.email = $1,`
-            [email]
+        `SELECT * FROM signings LEFT JOIN usersinfo ON signings.userId = usersinfo.id WHERE usersinfo.email = $1`,
+        [email]
     );
 };
 
+exports.getPassword = function getPassword(email) {
+    return db.query (
+        'SELECT email, password FROM usersinfo WHERE email=$1', [email]);
+};
 
+exports.addNewSignatures = function addNewSignatures(userId, signature) {
+    return db.query(
+        `UPDATE INTO signings (userId, signature) VALUES ($1, $2) RETURNING id`,
+        [ userId, signature ]);
+};
 // exports.getEmailToCheckSignature = function (email) {
 //     return db.query (
 //         `
