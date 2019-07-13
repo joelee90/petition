@@ -24,7 +24,7 @@ CREATE TABLE user_profile(
     age INTEGER,
     city VARCHAR(250) NOT NULL,
     homepage VARCHAR(250) NOT NULL,
-    userId INTEGER UNIQUE NOT NULL,
+    userId INTEGER UNIQUE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 

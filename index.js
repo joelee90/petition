@@ -115,7 +115,7 @@ app.get('/login', function(req, res) {
             title: "Login",
             material: imageDir
         });
-    } else if (!req.session.usersInformation) {
+    } else if (req.session.usersInformation) {
         res.redirect('/petition');
     } else
         res.redirect('/petition/signed');
@@ -124,13 +124,14 @@ app.get('/login', function(req, res) {
 app.post("/login", (req, res) => {
     db.getEmailToCheckSignature(req.body.email)
         .then(val => {
-            console.log('val', val);
+            // console.log('val', val);
             //check if email exists in the db
             if (val.rowCount > 0) {
                 bcrypt.checkPassword(req.body.password, val.rows[0].password)
                     .then(matched => {
                         if (matched) {
                             req.session.usersInformation = val.rows[0].id;
+                            // console.log("login", val.rows[0].id);
                             if (!val.rows[0].signature) {
                                 res.redirect("/petition");
                             } else {
@@ -170,7 +171,8 @@ app.get('/profile', function(req, res) {
 
 app.post('/profile', function(req, res) {
     return db.addUsersProfile(req.body.age, req.body.city, req.body.homepage, req.session.usersInformation)
-        .then(() => {
+        .then(results => {
+            req.session.usersInformation = results.rows[0].id;
             // req.session.sigId = results.rows[0].id;
             res.redirect('/petition');
         })
@@ -201,9 +203,73 @@ app.get("/petition/signers/:city", (req, res) => {
 //-------------------------part 5 -----------------------------------------
 
 app.get('/profile/edit', (req, res) => {
-    res.render('edit', {
-        title: "Edit"
-    });
+    db.editUserProfile(req.session.usersInformation)
+        .then(results => {
+            res.render('edit', {
+                title: "Edit",
+                profile : results.rows[0]
+            });
+        })
+        .catch(err => {
+            console.log("err in edit:", err);
+        });
+});
+
+app.post('/profile/edit', (req, res) => {
+
+    let url;
+    if (!req.body.homepage.startsWith("http")) {
+        url = "http://" + req.body.homepage;
+    } else {
+        url = req.body.homepage;
+        console.log("homepage:", url);
+    }
+
+    let edit;
+    if(req.body.password != "") {
+        edit = [
+            bcrypt.hashPassword(req.body.password)
+                .then(password =>
+                    db.updateUserInfo(
+                        req.session.usersInformation,
+                        req.body.firstname,
+                        req.body.lastname,
+                        req.body.email,
+                        password
+                    )
+                ),
+            db.updateUserProfile(
+                req.body.age,
+                req.body.city,
+                url,
+                req.session.usersInformation
+            )
+        ];
+    } else {
+        edit = [
+            db.updateUserInfo(
+                req.session.usersInformation,
+                req.body.firstname,
+                req.body.lastname,
+                req.body.email
+            ),
+            db.updateUserProfile(
+                req.body.age,
+                req.body.city,
+                url,
+                req.session.usersInformation
+            )
+        ];
+    }
+
+    Promise.all(edit)
+        .then(()=> {
+            res.redirect('/petition');
+        })
+        .catch(function(err) {
+            console.log("err in profile edit", err);
+        });
+
 });
 
 //-------------------------part 5 -----------------------------------------
@@ -268,6 +334,11 @@ app.get('/petition/signers', function(req,res) {
                 signers: results.rows
             });})
         .catch();
+});
+
+app.get("/logout", function(req, res) {
+    req.session = null;
+    res.redirect("/register");
 });
 //shows the list of people signed up for the petition.
 

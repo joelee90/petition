@@ -29,7 +29,12 @@ function draw(e) {
 
 function clearCanvas() {
     canvas.width = canvas.width;
+    $('input[name="signature"]').val("");
 }
+
+// window.addEventListener("load", function() {
+//
+// });
 
 canvas.addEventListener("mousedown", setPosition);
 canvas.addEventListener("mousemove", draw);

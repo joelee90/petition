@@ -57,7 +57,7 @@ YAY!!!
 	'login again'
 	(err.message Cannot read property 'length' of 	
 	undefined)
- 
+
   - know where cookie is saved and why
 	when register - save cookie
 	when signup for petition - save cookie
@@ -119,15 +119,6 @@ YAY!!!
 	if not signed -> '/petition'
 
 
-(Part 5)
-
-  - logged out -> only register, login
-
-  - logged in, signed -> only signers
-
-  - app.use(middleware)
-
-
 --------------------------TABLE-------------------------
 
               List of relations
@@ -171,21 +162,112 @@ check id if they have one in signature table
 
 req.cookie.userInformation = app.post('/register)
 req.cookie.userInformation = app.post('/login)
-req.cookie.userInformation = app.post('/petition)
+req.cookie.usersInformation = app.post('/petition)
 
-value of login rows []
+value of login rows [ ]
 
 ----------------------Part 4----------------------
-  
+
   - wrong email, wrong password -> login possible
   - correct email, wrong password => no login
 
   - check if email is registered, if not -> direct to register
   - 
-  
+
 SELECT * FROM usersinfo FULL OUTER JOIN signings ON signings.userId = usersinfo.id;
 
 
 if directly go to petition -> should redirect to register?
+
 - change redirect to register if user wants to go to petition
+
+
+----------------------Part 5----------------------
+
+(Part 5)
+
+  - logged out -> only register, login
+
+  - logged in, signed -> only signers
+
+  - app.use(middleware)
+
+    filling the form with existing db
+
+    name, email, password, age, city, homepage.
+
+    Since two tables are separated, have to make two different quries.
+
+- able to delete the signature -> also delete from the db
+
+  usersinfo(first, last, email, pass)
+
+  user_profile(age, city, homepage)
+
+  1. make db query to update user_profile 
+     - if empty -> fill
+     - if filled -> change
+
+------------------------------------------------------------------------------------------
+
+REDIS
+
+START
+
+1. redis-server --daemonize yes
+2. redis-cli
+3. only redis in redis branch
+
+
+
+when redid-cli
+
+keys * 
+
+127.0.0.1:6379> keys *
+(empty list or set)
+127.0.0.1:6379> SET funky chicken
+OK
+127.0.0.1:6379> keys *
+1) "funky"
+127.0.0.1:6379> GET funky
+"chicken"
+
+Use caching 
+
+------------------------------------------------------------------------------------------
+
+1. check if db exists
+2. if db exists -> UPDATE
+3. if db does not exist -> INSERT
+
+
+
+io@io -> direct to edit -> 
+
+how to show the db which already exists ?
+
+first display all the info on the edit page
+
+COOKIE 
+
+I am able to 
+
+
+
+two cookies:
+
+register 
+
+signature
+
+
+
+when updating profile, password shouln't be shown but should be able to update.
+
+filling profile is optional!
+
+- when login -> direct to signers not petition
+
+if user changes profile -> is not updated to db.
 

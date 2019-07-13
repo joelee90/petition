@@ -10,13 +10,14 @@
 
     <div class = "input">
         <form  method="post" action="/petition">
-            <input type="hidden" name = "signature" id = "signature"></input>
+            <input type="hidden" name = "signature" id = "signature" require></input>
         <div class = "message {{#if message}} on {{/if}}">
             <h4>You better sign</h4>
         </div>
             <canvas id="canvas" width="750" height="200"></canvas>
             <button type="button" id = "clear-btn">Clear</button>
             <button type="submit" id = "subtmit-btn" class = "subtmit-btn">Submit</button>
+            <a id="logout" href="/logout">LOGOUT</a>
         </form>
     </div>
         <span>Sign Here</span>

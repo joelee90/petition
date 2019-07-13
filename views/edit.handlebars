@@ -3,38 +3,38 @@
 <div class = "edit">
 <p>
 <form  method="post">
-    <input type='text' name='firstname'></input>
+    <input type='text' name='firstname' value = {{#profile}} {{firstname}} {{/profile}}></input>
     <span>
         First Name
     </span>
-    <input type='text' name='lastname'></input>
+    <input type='text' name='lastname' value = {{#profile}} {{lastname}} {{/profile}}></input>
     <span>
         Last Name
     </span>
-    <input type='text' name='email'></input>
+    <input type='text' name='email' value = {{#profile}} {{email}} {{/profile}}></input>
     <span>
         Email Address
     </span>
-    <input type='password' name='password'></input>
+    <input type='password' name='password' value = {{#profile}} {{password}} {{/profile}}></input>
     <span>
         Password
     </span>
-    <input type='text' name='age'></input>
+    <input type='text' name='age' value = {{#profile}} {{age}} {{/profile}}></input>
     <span>
         Age
     </span>
-    <input type='text' name='city'></input>
+    <input type='text' name='city' value = {{#profile}} {{city}} {{/profile}}></input>
     <span>
         City
     </span>
-    <input type='text' name='homepage'></input>
+    <input type='text' name='homepage' value = {{#profile}} {{homepage}} {{/profile}}></input>
     <span>
         Homepage
     </span>
 </br>
 </br>
     <!-- <input type="hidden" name="_csrf" value="{{csrfToken}}"> -->
-    <button type="submit" id = "update" class = "update">UPDATE</button>
+    <button type = "submit" id = "update" class = "update">UPDATE</button>
 </form>
 </p>
 </div>
