@@ -6,9 +6,16 @@
   - [x] delete the image url from the database
 - [x] After unsigning, users be redirected to the petition to sign again.
 
-- [ ] Problem - after unpdating/login in -> directed to petition page.
+- [x] Problem - after unpdating -> directed to petition page. should be  see signers.
 - [ ] csurf error fix
 - [ ] middleware?
 - [ ] code arrange
 - [ ] petition
+- [ ] heroku
+- [ ] When adding homepage without http, still works
+- [ ] see all signers page - rearrange names |remove hyperlink from names
+- [ ] delete signature button at signers
+- [ ] edit page - css 
 - [ ] 
+
+after making changes, do css

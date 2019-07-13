@@ -1,28 +1,31 @@
 * {
     /* background-color: #01FF70 */
-}
-
-.petition {
+    margin: 10px;
     box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
 }
 
 input {
-    font-size: 30px;
+    font-size: 20px;
 }
 
 .input {
-    font-size: 30px;
-}
-
-.subtmit-btn {
-    width: 100px;
-    height: 40px;
-    margin: 10px;
+    font-size: 20px;
 }
 -------------------------------------------------------------------------------
+/* register */
+form {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.register-container{
+    width: 200px;
+    height: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 .signed {
     font-size: 40px;
 }
@@ -48,19 +51,6 @@ input {
     border: 2px solid black;
 }
 -------------------------------------------------------------------------------
-
-.register {
-    width: 100%;
-    font-size: 25px;
-    flex-wrap: wrap;
-    justify-content: center;
-    text-align: center;
-}
-
-.input {
-    width:300px;
-}
-
 .message {
     visibility: hidden;
     margin: 10px;

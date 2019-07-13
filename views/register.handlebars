@@ -1,41 +1,27 @@
-<h1>Register Here</h1>
+<h1>GET INVOLVED</h1>
+<h2>Register to Sign the petition now!</h2>
 
-<div class = "register">
+<div class = "register-container">
 
-<div>
-    {{#material}}
-    <img src="burger.jpg">
-    {{/material}}
-</div>
-
-<div class = "input">
+<div class = "input-register">
     <p>
     <form  method="post" action="/register">
         <input type='text' name='firstname' required></input>
-        <span>
-            First Name
-        </span>
+        <span>First Name</span>
         <input type='text' name='lastname' required></input>
-        <span>
-            Last Name
-        </span>
+        <span>Last Name</span>
         <input type='text' name='email' required></input>
-        <span>
-            Email
-        </span>
+        <span>Email</span>
         <input type='password' name='password' required></input>
-        <span>
-            Password
-        </span>
+        <span>Password</span>
         <!-- <input type="hidden" name="_csrf" value="{{csrfToken}}"> -->
-        <div class = "message {{#if message}} on {{/if}}">
-            <h4>Please register as new user</h4>
-        </div>
+            <div class = "message {{#if message}} on {{/if}}">
+                <p>Please register as a new user!</p>
+            </div>
         <button type="submit" id = "signup-btn" class = "signup-btn">SIGN UP</button>
     </form>
     </p>
 </div>
-
 </div>
 
-<h3>If you are already a member, please <a href = '/login'>log in</a></h3>
+<h3>Already a member? Please <a href = '/login'><button>LOGIN</button></a></h3>

@@ -1,19 +1,12 @@
 <h1>Sign our petition to get rid of pickles from all hamburgers around the world!</h1>
 
 <div class = "petition">
-
-    <div>
-        {{#material}}
-        <img src="burger.jpg">
-        {{/material}}
-    </div>
-
     <div class = "input">
         <form  method="post" action="/petition">
             <input type="hidden" name = "signature" id = "signature" require></input>
-        <div class = "message {{#if message}} on {{/if}}">
+            <div class = "message {{#if message}} on {{/if}}">
             <h4>You better sign</h4>
-        </div>
+            </div>
             <canvas id="canvas" width="750" height="200"></canvas>
             <button type="button" id = "clear-btn">Clear</button>
             <button type="submit" id = "subtmit-btn" class = "subtmit-btn">Submit</button>

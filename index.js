@@ -84,8 +84,7 @@ app.get('/', function(req, res) {
 //-------------------------part 3----------------------------------------------
 app.get('/register', function(req, res) {
     res.render('register', {
-        title: "Register",
-        material: imageDir
+        title: "Register"
     });
 });
 
@@ -112,8 +111,7 @@ app.get('/login', function(req, res) {
 
     if(!req.session.usersInformation) {
         res.render('login', {
-            title: "Login",
-            material: imageDir
+            title: "Login"
         });
     } else if (req.session.usersInformation) {
         res.redirect('/petition');
@@ -264,7 +262,7 @@ app.post('/profile/edit', (req, res) => {
 
     Promise.all(edit)
         .then(()=> {
-            res.redirect('/petition');
+            res.redirect('/petition/signers');
         })
         .catch(function(err) {
             console.log("err in profile edit", err);
@@ -277,8 +275,7 @@ app.post('/profile/edit', (req, res) => {
 
 app.get('/petition', function(req, res) {
     res.render('petition', {
-        title: "No Pickles",
-        material: imageDir
+        title: "No Pickles"
     });
 });
 
@@ -330,7 +327,6 @@ app.get('/petition/signers', function(req,res) {
         .then(results => {
             res.render('signers', {
                 title: "Signers",
-                material: imageDir,
                 signers: results.rows
             });})
         .catch();
