@@ -336,6 +336,18 @@ app.get('/petition/signers', function(req,res) {
         .catch();
 });
 
+app.post('/deleteSignature', (req, res) => {
+    db.deleteSignature(req.session.usersInformation)
+        .then(()=> {
+            delete req.session.usersInformation;
+            res.redirect('/petition');
+        })
+        .catch(err => {
+            console.log('err in delete: ', err);
+        });
+});
+
+
 app.get("/logout", function(req, res) {
     req.session = null;
     res.redirect("/register");

@@ -12,6 +12,12 @@
     <img src = {{sigimage}}>
 </div>
 
+<form method="post" action="/deleteSignature">
+    <!-- <input type="hidden" name="_csrf" value="{{csrfToken}}"></input> -->
+    <button>Delete Your Signature</button>
+</form>
+
+
 <p>
     <div class = "signerslist">
         <a href = '/petition/signers'> See all {{count}} signers </a>

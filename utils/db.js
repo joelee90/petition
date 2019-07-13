@@ -128,7 +128,10 @@ exports.updateUserProfile = function updateUserProfile
     );
 };
 
-
+exports.deleteSignature = function deleteSignature(id) {
+    return db.query(
+        `DELETE FROM signings WHERE id = $1`, [id]);
+};
 // exports.editUserProfile = function editUserProfile(age, city, homepage, userId) {
 //     return db.query(
 //         `INSERT INTO user_profile (age, city, homepage, userId) VALUES ($1, $2, $3, $4) ON CONFLICT (userId)
