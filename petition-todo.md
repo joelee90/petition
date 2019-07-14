@@ -37,3 +37,6 @@ iulia/errors
 
 - [ ] Not updating properly
 
+git push heroku HEAD:master
+
+**➜**  **curry-petition** **git:(****joe****)** **✗** heroku pg:psql

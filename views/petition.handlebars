@@ -17,9 +17,9 @@
             <span>Sign Here</span>
             <canvas id="canvas" width="800" height="300"></canvas>
         </br>
+            <input type="hidden" name="_csrf" value="{{csrfToken}}">
             <button type="button" id = "clear-btn" class = 'clear-btn'>Clear</button>
             <button type="submit" id = "subtmit-btn" class = "subtmit-btn">Submit</button>
-            <input type="hidden" name="_csrf" value="{{csrfToken}}">
         </form>
     </div>
 

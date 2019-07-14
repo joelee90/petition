@@ -169,7 +169,6 @@ app.post('/profile/edit', (req, res) => {
         url = "http://" + req.body.homepage;
     } else {
         url = req.body.homepage;
-        console.log("homepage:", url);
     }
     let edit;
     if(req.body.password != "") {
