@@ -1,5 +1,4 @@
 DROP TABLE IF EXISTS signings;
-
 CREATE TABLE signings(
     id SERIAL PRIMARY KEY,
     userId INTEGER UNIQUE,

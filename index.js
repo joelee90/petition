@@ -62,6 +62,7 @@ app.post('/register', function(req, res) {
             // console.log("req.body: ",req.body);
             // console.log("results: ",results);
             req.session.usersInformation = results.rows[0].id;
+            req.session.name = req.body.firstname;
             res.redirect('/profile');
         })
             .catch(err => {
@@ -71,15 +72,13 @@ app.post('/register', function(req, res) {
 });
 
 app.get('/login', function(req, res) {
-
     if(!req.session.usersInformation) {
         res.render('login', {
             title: "Login"
         });
-    } else if (req.session.usersInformation) {
+    } else {
         res.redirect('/petition');
-    } else
-        res.redirect('/petition/signed');
+    }
 });
 
 app.post("/login", (req, res) => {
@@ -92,6 +91,7 @@ app.post("/login", (req, res) => {
                     .then(matched => {
                         if (matched) {
                             req.session.usersInformation = val.rows[0].id;
+                            req.session.name = req.body[0].firstname;
                             // console.log("login", val.rows[0].id);
                             if (!val.rows[0].signature) {
                                 res.redirect("/petition");
@@ -120,7 +120,8 @@ app.post("/login", (req, res) => {
 
 app.get('/profile', function(req, res) {
     res.render('profile', {
-        title: "Profile"
+        title: "Profile",
+        name: req.session.name
     });
 });
 
@@ -253,7 +254,8 @@ app.get('/petition/signed', function(req,res) {
                         res.render('signed', {
                             title: "Signed",
                             count: resultsNo[0].count,
-                            sigimage: results.rows[0].signature
+                            sigimage: results.rows[0].signature,
+                            name: req.session.name
                         });
                     }
 
