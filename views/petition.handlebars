@@ -11,14 +11,15 @@
     <div class = "input">
         <form  method="post" action="/petition">
             <input type="hidden" name = "signature" id = "signature" require></input>
-            <!-- <div class = "message {{#if message}} on {{/if}}">
-            <h4>You better sign</h4>
-            </div> -->
+            <div class = "message {{#if message}} on {{/if}}">
+            <h4>Please sign to proceed!</h4>
+            </div>
             <span>Sign Here</span>
             <canvas id="canvas" width="800" height="300"></canvas>
         </br>
             <button type="button" id = "clear-btn" class = 'clear-btn'>Clear</button>
             <button type="submit" id = "subtmit-btn" class = "subtmit-btn">Submit</button>
+            <input type="hidden" name="_csrf" value="{{csrfToken}}">
         </form>
     </div>
 

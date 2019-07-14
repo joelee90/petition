@@ -16,7 +16,24 @@
 - [ ] see all signers page - rearrange names |remove hyperlink from names
 - [ ] delete signature button at signers
 - [ ] edit page - css 
-- [ ] 
 
-- [ ] CSS
-- [ ] CHANGE A
+Problems:
+
+Greet the user by name
+
+<profile>
+
+- [ ] profile page, when the field is empty(age, city, homepage) - won't direct to the next
+- [ ] homepage without http works
+
+<peittion>
+
+- [ ] signature won't be submitted
+
+iulia/errors
+
+- no placeholder appears in the edit profile fields
+- multiple data saved in db.
+
+- [ ] Not updating properly
+

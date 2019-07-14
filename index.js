@@ -5,56 +5,19 @@ const hb = require('express-handlebars');
 const db = require("./utils/db");
 const bcrypt = require("./utils/bc");
 
-// const {requireSigniture} = require("./middleware");
-
 app.engine('handlebars', hb());
 app.set('view engine', 'handlebars');
-
 app.use(require('cookie-parser')());
 app.use("/favicon.ico", (req,res) => res.sendStatus(404));
 const bodyParser = require('body-parser');
-// const csurf = require('csurf');
-
-
-app.use(express.static('./material'));
-//this is where burger.jpg is stored.
+const csurf = require('csurf');
 
 app.use(express.static('./static'));
-//this is where css will be stored.
 
 app.use(function(req, res, next) {
     res.set('x-frame-options', 'deny');
-    // res.locals.csrfToken = req.csrfToken();
     next();
 });
-//--------------------demo routes-----------------------
-
-app.get('/home', (req, res) => {
-    res.send('<h1>welcome</h1>');
-});
-
-app.get('/product', (req, res) => {
-    res.send(
-        `
-        <html>
-            <h1>buy</h1>
-            <form method = 'POST'>
-                <button>yes</button>
-            </form>
-        </html>
-        `
-    );
-});
-
-// <input type = 'hidden' name= '_csrf'
-// value='${req.csrfToken()}'>
-
-app.post('/product', (req, res) => {
-    req.session.wouldLikeToBuy = true;
-    res.redirect('/home');
-});
-
-//--------------------demo routes-----------------------
 
 //--------------------cookie-----------------------
 let cookieSession = require('cookie-session');
@@ -66,11 +29,12 @@ app.use(cookieSession({
 app.use(require("body-parser").urlencoded({
     extended: false
 }));
+app.use(csurf());
 
-// app.use(csurf());
-
-let imageDir = fs.readdirSync('./material');
-//path to burger.jpg
+app.use(function(req, res, next) {
+    res.locals.csrfToken = req.csrfToken();
+    next();
+});
 
 
 app.get('/', function(req, res) {
@@ -81,7 +45,6 @@ app.get('/', function(req, res) {
     }
 });
 
-//-------------------------part 3----------------------------------------------
 app.get('/register', function(req, res) {
     res.render('register', {
         title: "Register"
@@ -136,9 +99,7 @@ app.post("/login", (req, res) => {
                                 res.redirect("/petition/signers");
                             }
                         } else {
-                            res.render('login', {
-                                message: true
-                            });
+                            res.render('login', {});
                         }
                     })
                     .catch(err => {
@@ -156,11 +117,7 @@ app.post("/login", (req, res) => {
             console.log("Error Message: ", err);
         });
 });
-//in login, when user inputs email and password, should login.
 
-//-------------------------part 3----------------------------------------------
-
-//-------------------------part 4 (1/2)-----------------------------------------
 app.get('/profile', function(req, res) {
     res.render('profile', {
         title: "Profile"
@@ -171,17 +128,12 @@ app.post('/profile', function(req, res) {
     return db.addUsersProfile(req.body.age, req.body.city, req.body.homepage, req.session.usersInformation)
         .then(results => {
             req.session.usersInformation = results.rows[0].id;
-            // req.session.sigId = results.rows[0].id;
             res.redirect('/petition');
         })
         .catch(err => {
             console.log("err in app.post profile: ", err.message);
         });
 });
-//-------------------------part 4 (1/2)-----------------------------------------
-
-
-//-------------------------part 4 (2/2)-----------------------------------------
 
 app.get("/petition/signers/:city", (req, res) => {
     db.getSignersByCity(req.params.city)
@@ -196,13 +148,11 @@ app.get("/petition/signers/:city", (req, res) => {
         });
 });
 
-//-------------------------part 4 (2/2)-----------------------------------------
-
-//-------------------------part 5 -----------------------------------------
-
 app.get('/profile/edit', (req, res) => {
     db.editUserProfile(req.session.usersInformation)
         .then(results => {
+            console.log(results);
+            console.log("req.session.usersInformation", req.session.usersInformation);
             res.render('edit', {
                 title: "Edit",
                 profile : results.rows[0]
@@ -214,7 +164,6 @@ app.get('/profile/edit', (req, res) => {
 });
 
 app.post('/profile/edit', (req, res) => {
-
     let url;
     if (!req.body.homepage.startsWith("http")) {
         url = "http://" + req.body.homepage;
@@ -222,7 +171,6 @@ app.post('/profile/edit', (req, res) => {
         url = req.body.homepage;
         console.log("homepage:", url);
     }
-
     let edit;
     if(req.body.password != "") {
         edit = [
@@ -270,12 +218,9 @@ app.post('/profile/edit', (req, res) => {
 
 });
 
-//-------------------------part 5 -----------------------------------------
-
-
 app.get('/petition', function(req, res) {
     res.render('petition', {
-        title: "No Pickles"
+        title: "No Plastic!"
     });
 });
 
@@ -308,7 +253,6 @@ app.get('/petition/signed', function(req,res) {
                     } else {
                         res.render('signed', {
                             title: "Signed",
-                            material: imageDir,
                             count: resultsNo[0].count,
                             sigimage: results.rows[0].signature
                         });
@@ -320,7 +264,6 @@ app.get('/petition/signed', function(req,res) {
             console.log('err in app.get petition signed: ', err.message);
         });
 });
-//shows total number of people who signed up for the petition.
 
 app.get('/petition/signers', function(req,res) {
     db.getUserProfile()
@@ -348,11 +291,33 @@ app.get("/logout", function(req, res) {
     req.session = null;
     res.redirect("/register");
 });
-//shows the list of people signed up for the petition.
 
-// db.getEmailToCheckSignature().then(email => console.log("getEmailToCheckSignature", email));
-// db.getSignersByCity().then(results => {console.log("getSignersByCity: ", results);});
-// db.getUserProfile().then(results => { console.log(results);});
+//--------------------demo routes-----------------------
+
+app.get('/home', (req, res) => {
+    res.send('<h1>welcome</h1>');
+});
+
+app.get('/product', (req, res) => {
+    res.send(
+        `
+        <html>
+            <h1>buy</h1>
+            <form method = 'POST'>
+                <button>yes</button>
+            </form>
+        </html>
+        `
+    );
+});
+
+// <input type = 'hidden' name= '_csrf' value='${req.csrfToken()}'>
+
+app.post('/product', (req, res) => {
+    req.session.wouldLikeToBuy = true;
+    res.redirect('/home');
+});
+
 if (require.main == module) {
     app.listen(process.env.PORT || 8080, () => {console.log('listening');});
 }

@@ -94,7 +94,7 @@ input {
 
 /* petition */
 .petition {
-    height: 80vh;
+    height: 100vh;
     display: grid;
     grid-template-columns: 200px 1fr 1fr;
     grid-template-rows: 200px 1fr 100px;

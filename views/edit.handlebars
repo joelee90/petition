@@ -15,7 +15,7 @@
     <span>First Name</span></br>
     <input type='text' name='lastname' value = {{#profile}} {{lastname}} {{/profile}}></input>
     <span>Last Name</span></br>
-    <input type='text' name='email' value = {{#profile}} {{email}} {{/profile}}></input>
+    <input type='email' name='email' value = {{#profile}} {{email}} {{/profile}}></input>
     <span>Email Address</span></br>
     <input type='password' name='password' value = {{#profile}} {{password}} {{/profile}}></input>
     <span>Password</span></br>
@@ -23,10 +23,10 @@
     <span>Age</span></br>
     <input type='text' name='city' value = {{#profile}} {{city}} {{/profile}}></input>
     <span>City</span></br>
-    <input type='text' name='homepage' value = {{#profile}} {{homepage}} {{/profile}}></input>
+    <input type='url' name='homepage' value = {{#profile}} {{homepage}} {{/profile}}></input>
     <span>Homepage</span>
 </br>
-    <!-- <input type="hidden" name="_csrf" value="{{csrfToken}}"> -->
+    <input type="hidden" name="_csrf" value="{{csrfToken}}">
     <button type = "submit" id = "update" class = "update-btn">UPDATE</button>
 </form>
 </p>
