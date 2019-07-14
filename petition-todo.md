@@ -18,4 +18,5 @@
 - [ ] edit page - css 
 - [ ] 
 
-after making changes, do css
+- [ ] CSS
+- [ ] CHANGE A

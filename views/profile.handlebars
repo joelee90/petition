@@ -1,25 +1,28 @@
+<div class = 'profile'>
+<header class = "profile-header">
+    <h1>We want to know more about you! Give us your profile!</h1>
+</header>
 
-<div>
-    {{#material}}
-    <img src="burger.jpg">
-    {{/material}}
+<div class = 'profile-nav'>
+<p>🌎 🌍 🌏 </br>We know that plastics are doing irreparable harm to wildlife!</br>🌎 🌍 🌏 </p>
 </div>
 
+<div class = "profile-container-1">
 <p>
 <form  method="post" action="/profile">
     <input type='text' name='age'></input>
-    <span>
-        Age
-    </span>
+    <span>Age</span></br>
     <input type='text' name='city'></input>
-    <span>
-        City
-    </span>
+    <span>City</span></br>
     <input type='text' name='homepage'></input>
-    <span>
-        Homepage
-    </span>
+    <span>Homepage</span></br>
     <!-- <input type="hidden" name="_csrf" value="{{csrfToken}}"> -->
-    <button type="submit" id = "continue" class = "continue">CONTINUE</button>
+    <button type="submit" id = "continue" class = "continue-btn">CONTINUE</button>
 </form>
 </p>
+</div>
+
+<div class = "profile-container-2">
+    <img src ="/reuse.png" width = '300px';>
+</div>
+</div>

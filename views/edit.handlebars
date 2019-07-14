@@ -1,40 +1,38 @@
-<h1>Edit Your Profile</h1>
+<div class = 'edit'>
 
-<div class = "edit">
+<header class = "edit-header">
+    <h1>Edit Your Profile</h1>
+</header>
+
+<div class = 'edit-nav'>
+<p>🌎 🌍 🌏 </br>Plastic is a cost effective, useful and flexible material which, when used properly, can actually have a positive overall environmental impact.</br>🌎 🌍 🌏 </p>
+</div>
+
+<div class = "edit-container-1">
 <p>
 <form  method="post">
     <input type='text' name='firstname' value = {{#profile}} {{firstname}} {{/profile}}></input>
-    <span>
-        First Name
-    </span>
+    <span>First Name</span></br>
     <input type='text' name='lastname' value = {{#profile}} {{lastname}} {{/profile}}></input>
-    <span>
-        Last Name
-    </span>
+    <span>Last Name</span></br>
     <input type='text' name='email' value = {{#profile}} {{email}} {{/profile}}></input>
-    <span>
-        Email Address
-    </span>
+    <span>Email Address</span></br>
     <input type='password' name='password' value = {{#profile}} {{password}} {{/profile}}></input>
-    <span>
-        Password
-    </span>
+    <span>Password</span></br>
     <input type='text' name='age' value = {{#profile}} {{age}} {{/profile}}></input>
-    <span>
-        Age
-    </span>
+    <span>Age</span></br>
     <input type='text' name='city' value = {{#profile}} {{city}} {{/profile}}></input>
-    <span>
-        City
-    </span>
+    <span>City</span></br>
     <input type='text' name='homepage' value = {{#profile}} {{homepage}} {{/profile}}></input>
-    <span>
-        Homepage
-    </span>
-</br>
+    <span>Homepage</span>
 </br>
     <!-- <input type="hidden" name="_csrf" value="{{csrfToken}}"> -->
-    <button type = "submit" id = "update" class = "update">UPDATE</button>
+    <button type = "submit" id = "update" class = "update-btn">UPDATE</button>
 </form>
 </p>
+</div>
+<div class = "edit-container-2">
+    <img src ="/reuse.png" width = '300px';>
+</div>
+
 </div>

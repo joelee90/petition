@@ -1,27 +1,35 @@
-<h1>GET INVOLVED</h1>
-<h2>Register to Sign the petition now!</h2>
+<div class = 'register'>
+<header class = "register-header">
+    <h1>GET INVOLVED! </br> Register to Sign the petition now!</h1>
+</header>
 
-<div class = "register-container">
+<div class = 'register-nav'>
+<p>Already a member? </br> Please <a href = '/login'><button  class = 'login-btn'>LOGIN</button></a>👍</p>
+<p>Let’s stop plastics choking our oceans – and harming people and nature!</p>
+</p>
+</div>
 
-<div class = "input-register">
+<div class = "register-container-1">
     <p>
     <form  method="post" action="/register">
         <input type='text' name='firstname' required></input>
-        <span>First Name</span>
+        <span>First Name</span></br>
         <input type='text' name='lastname' required></input>
-        <span>Last Name</span>
+        <span>Last Name</span></br>
         <input type='text' name='email' required></input>
-        <span>Email</span>
+        <span>Email</span></br>
         <input type='password' name='password' required></input>
-        <span>Password</span>
+        <span>Password</span></br>
         <!-- <input type="hidden" name="_csrf" value="{{csrfToken}}"> -->
-            <div class = "message {{#if message}} on {{/if}}">
+            <!-- <div class = "message {{#if message}} on {{/if}}">
                 <p>Please register as a new user!</p>
-            </div>
+            </div> -->
         <button type="submit" id = "signup-btn" class = "signup-btn">SIGN UP</button>
     </form>
     </p>
 </div>
+<div class = "register-container-2">
+    <img src ="/reuse.png" width = '300px';>
 </div>
 
-<h3>Already a member? Please <a href = '/login'><button>LOGIN</button></a></h3>
+</div>

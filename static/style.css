@@ -1,68 +1,377 @@
 * {
-    /* background-color: #01FF70 */
-    margin: 10px;
-    box-sizing: border-box;
+    font-family: 'Amatic SC', cursive;
+    background-color: #B0E0E6;
 }
 
-input {
-    font-size: 20px;
-}
-
-.input {
-    font-size: 20px;
-}
--------------------------------------------------------------------------------
 /* register */
-form {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
+.register {
+    height: 80vh;
+    display: grid;
+    grid-template-columns: 400px 1fr 1fr;
+    grid-template-rows: 300px 1fr 100px;
 }
 
-.register-container{
-    width: 200px;
-    height: 80%;
+.register-header {
+    height: 10vh;
+    grid-column: 1 / 4;
     display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-.signed {
     font-size: 40px;
 }
--------------------------------------------------------------------------------
-.signers {
-    width: 100%;
+
+.register-nav {
+    grid-column: 1 / 2;
+    font-size: 35px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-left: 5%;
+}
+
+.register-container-1 {
+    grid-column-start: 2;
+    grid-column-end: 3;
     display: flex;
     justify-content: center;
-    align-content: center;
-    align-items:center;
-    text-align: center;
+    font-size: 50px;
+    align-items: center;
 }
-
-.allsigners {
-    width: 100%;
-    font-size: 25px;
-    flex-wrap: wrap;
+input {
+    font-size: 30px;
+}
+.register-container-2 {
+    grid-column-start: 3;
+    grid-column-end: 4;
+    display: flex;
     justify-content: center;
-    text-align: center;
+    font-size: 30px;
+    align-items: center;
 }
 
+/* profile */
+.profile {
+    height: 80vh;
+    display: grid;
+    grid-template-columns: 200px 1fr 1fr;
+    grid-template-rows: 200px 1fr 100px;
+}
+
+.profile-header {
+    height: 10vh;
+    grid-column: 1 / 4;
+    display: flex;
+    font-size: 40px;
+}
+
+.profile-nav {
+    grid-column: 1 / 2;
+    font-size: 35px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 5%;
+}
+
+.profile-container-1 {
+    grid-column-start: 2;
+    grid-column-end: 3;
+    display: flex;
+    justify-content: center;
+    font-size: 50px;
+    align-items: center;
+}
+
+.profile-container-2 {
+    grid-column-start: 3;
+    grid-column-end: 4;
+    display: flex;
+    justify-content: center;
+    font-size: 30px;
+    align-items: center;
+    margin-top: 5%;
+}
+
+/* petition */
+.petition {
+    height: 80vh;
+    display: grid;
+    grid-template-columns: 200px 1fr 1fr;
+    grid-template-rows: 200px 1fr 100px;
+}
+
+.petition-header {
+    height: 10vh;
+    grid-column: 1 / 4;
+    display: flex;
+    font-size: 40px;
+}
+
+.petition-nav {
+    grid-column: 1 / 2;
+    font-size: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 20%;
+}
+
+.petition-container-1 {
+    grid-column-start: 2;
+    grid-column-end: 3;
+    display: flex;
+    justify-content: center;
+    font-size: 30px;
+    align-items: center;
+    margin-left: 10%;
+}
+
+.petition-container-2 {
+    grid-column-start: 3;
+    grid-column-end: 4;
+    display: flex;
+    justify-content: center;
+    font-size: 30px;
+    align-items: center;
+}
 #canvas {
-    border: 2px solid black;
-}
--------------------------------------------------------------------------------
-.message {
-    visibility: hidden;
-    margin: 10px;
+    border: 1px solid blue;
 }
 
-.message.on {
-    visibility: visible;
-    margin: 10px;
+/* signed */
+.signed {
+    height: 80vh;
+    display: grid;
+    grid-template-columns: 300px 1fr 1fr;
+    grid-template-rows: 200px 1fr 100px;
 }
 
--------------------------------------------------------------------------------
+.signed-header {
+    height: 10vh;
+    grid-column: 1 / 4;
+    display: flex;
+    font-size: 40px;
+}
 
+.signed-nav {
+    grid-column: 1 / 2;
+    font-size: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.signed-container-1 {
+    grid-column-start: 2;
+    grid-column-end: 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-size: 30px;
+    align-items: center;
+}
+
+.signed-container-2 {
+    grid-column-start: 3;
+    grid-column-end: 4;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-size: 100px;
+    align-items: center;
+    margin-right: 60%;
+}
+
+/* signers */
+.signers {
+    min-height: 200vh;
+    display: grid;
+    grid-template-columns: 250px 1fr 1fr;
+    grid-template-rows: 200px 1fr 100px;
+}
+
+.signers-header {
+    height: 10vh;
+    grid-column: 1 / 4;
+    display: flex;
+    font-size: 40px;
+}
+
+.signers-nav {
+    grid-column: 1 / 2;
+    font-size: 30px;
+    display: flex;
+    flex-direction: column;
+    margin-left: 20%;
+}
+
+.signers-container-1 {
+    grid-column-start: 2;
+    grid-column-end: 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-size: 30px;
+    align-items: center;
+    padding: 5px;
+}
+
+/* edit */
 .edit {
-    color: blue;
+    height: 80vh;
+    display: grid;
+    grid-template-columns: 300px 1fr 1fr;
+    grid-template-rows: 150px 1fr 50px;
+}
+
+.edit-header {
+    height: 3vh;
+    grid-column: 1 / 4;
+    display: flex;
+    font-size: 40px;
+}
+
+.edit-nav {
+    grid-column: 1 / 2;
+    font-size: 35px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-left: 10%;
+    margin-bottom: 15%;
+}
+
+.edit-container-1{
+    grid-column-start: 2;
+    grid-column-end: 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-size: 40px;
+    align-items: center;
+}
+
+.edit-container-2 {
+    grid-column-start: 3;
+    grid-column-end: 4;
+    display: flex;
+    justify-content: center;
+    font-size: 30px;
+    align-items: center;
+}
+
+/* login */
+.login {
+    height: 80vh;
+    display: grid;
+    grid-template-columns: 300px 1fr 1fr;
+    grid-template-rows: 200px 1fr 100px;
+}
+
+.login-header {
+    height: 10vh;
+    grid-column: 1 / 4;
+    display: flex;
+    font-size: 40px;
+}
+
+.login-nav {
+    grid-column: 1 / 2;
+    font-size: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-left: 10%;
+}
+
+.login-container-1 {
+    grid-column-start: 2;
+    grid-column-end: 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-size: 50px;
+    align-items: center;
+}
+
+.login-container-2 {
+    grid-column-start: 3;
+    grid-column-end: 4;
+    display: flex;
+    justify-content: center;
+    font-size: 30px;
+    align-items: center;
+}
+
+.login-btn {
+    width: 100px;
+    height: 40px;
+    font-size: 30px;
+    background-color: #87CEEB;
+}
+
+.signup-btn {
+    width: 100px;
+    height: 40px;
+    font-size: 30px;
+    background-color: #87CEEB;
+}
+
+.continue-btn {
+    width: 100px;
+    height: 40px;
+    font-size: 30px;
+    background-color: #87CEEB;
+}
+.clear-btn {
+    width: 100px;
+    height: 40px;
+    font-size: 30px;
+    background-color: #87CEEB;
+}
+.subtmit-btn {
+    width: 100px;
+    height: 40px;
+    font-size: 30px;
+    background-color: #87CEEB;
+}
+.update-btn {
+    width: 100px;
+    height: 40px;
+    font-size: 30px;
+    background-color: #87CEEB;
+}
+
+.edit-btn {
+    width: 200px;
+    height: 40px;
+    font-size: 30px;
+    background-color: #87CEEB;
+}
+
+.logout-btn {
+    width: 200px;
+    height: 40px;
+    font-size: 30px;
+    background-color: #87CEEB;
+}
+.delete-btn {
+    width: 220;
+    height: 40px;
+    font-size: 30px;
+    background-color: #87CEEB;
+}
+
+.singers-btn {
+    width: 220;
+    height: 40px;
+    font-size: 30px;
+}
+
+footer {
+    grid-column-start: 1;
+    grid-column-end: 4;
 }

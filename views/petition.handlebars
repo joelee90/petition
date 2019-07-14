@@ -1,18 +1,29 @@
-<h1>Sign our petition to get rid of pickles from all hamburgers around the world!</h1>
-
 <div class = "petition">
+    <header class = "register-header">
+        <h1>Sign the petition now!</h1>
+    </header>
+
+    <div class = 'petition-nav'>
+        <p>🌎 🌍 🌏 </br>The way we use and dispose of plastics must change for the sake of not just the environment – but also our economy.</br>🌎 🌍 🌏 </p>
+    </div>
+
+<div class = "petition-container-1">
     <div class = "input">
         <form  method="post" action="/petition">
             <input type="hidden" name = "signature" id = "signature" require></input>
-            <div class = "message {{#if message}} on {{/if}}">
+            <!-- <div class = "message {{#if message}} on {{/if}}">
             <h4>You better sign</h4>
-            </div>
-            <canvas id="canvas" width="750" height="200"></canvas>
-            <button type="button" id = "clear-btn">Clear</button>
+            </div> -->
+            <span>Sign Here</span>
+            <canvas id="canvas" width="800" height="300"></canvas>
+        </br>
+            <button type="button" id = "clear-btn" class = 'clear-btn'>Clear</button>
             <button type="submit" id = "subtmit-btn" class = "subtmit-btn">Submit</button>
-            <a id="logout" href="/logout">LOGOUT</a>
         </form>
     </div>
-        <span>Sign Here</span>
+
+    </div>
+    <div class = "register-container-2">
+        <img src ="/reuse.png" / width = '200px';>
     </div>
 </div>

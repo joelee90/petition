@@ -1,30 +1,29 @@
-<h1>We the undersigned demand that disgusting practice of eating burgers with pickles be banned by all around the world</h1>
-
 <div class = "signers">
 
-    <img src = "/burger.jpg" alt='burger'>
+    <header class = "signers-header">
+        <h1>We Ban Plastic Bottles!</h1>
+    </header>
 
-<div class = "allsigners">
-
-{{#signers}}
-
-<p>
-
-{{#if homepage}}
-
-<h3> <a href={{homepage}}> | {{firstname}} | {{lastname}} </a> | {{age}} | <a href = '/petition/signers/{{city}}'> {{city}} </a></h3>
-
-{{else}}
-
-<h3>{{firstname}} {{lastname}}| {{age}} | <a href = '/petition/signers/{{city}}'>{{city}}</a></h3>
-
-{{/if}}
-
-</p>
-
-{{/signers}}
-
+<div class = 'signers-nav'>
+    <a href = "/profile/edit"><button type="submit" id = "edit-btn" class = "edit-btn">EDIT YOUR PROFILE</button></a>
+    </br>
+    <a href = "/logout"><button class = "logout-btn">LOGOUT</button></a>
 </div>
-<a href = "/profile/edit"><button type="submit" id = "edit-btn" class = "edit-btn">EDIT YOUR PROFILE</button></a>
-<a id="logout" href="/logout">LOGOUT</a>
+
+<div class = "signers-container-1">
+    {{#signers}}
+
+            {{#if homepage}}
+                <p><a href={{homepage}}> | {{firstname}} | {{lastname}} </a> | {{age}} | <a href = '/petition/signers/{{city}}'> {{city}} </a></p>
+                    {{else}}
+                <p>{{firstname}} {{lastname}}| {{age}} | <a href = '/petition/signers/{{city}}'>{{city}}</a></p>
+            {{/if}}
+
+    {{/signers}}
+</div>
+
+<div class = "signers-container-2">
+    <!-- <img src ="/reuse.png" width = '200px';> -->
+</div>
+
 </div>

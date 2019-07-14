@@ -1,25 +1,30 @@
-<h1>Please Login</h1>
+<div class = 'login'>
+    <header class = "login-header">
+        <h1>Please Login</h1>
+    </header>
 
-<div>
-    {{#material}}
-    <img src="burger.jpg">
-    {{/material}}
+<div class = 'login-nav'>
+    <p>There have been multiple reports in the media on the microplastics we are ingesting – through our food (shellfish, honey and salt), our drinks (tap water, bottled water and beer), and even the air.</p>
 </div>
 
+<div class = "login-container-1">
 <p>
     <form  method="post" action="/login">
     <input type='text' name='email' required></input>
-    <span>
-        Email
-    </span>
+    <span>Email</span></br>
     <input type='password' name='password' required></input>
-    <span>
-        Password
-    </span>
-    <div class = "message {{#if message}} on {{/if}}">
+    <span>Password</span></br>
+    <!-- <div class = "message {{#if message}} on {{/if}}">
         <h4>Wrong email and password, please check again</h4>
-    </div>
+    </div> -->
     <!-- <input type="hidden" name="_csrf" value="{{csrfToken}}"> -->
     <button type="submit" id = "login-btn" class = "login-btn">LOG IN</button>
-</form>
+    </form>
 </p>
+</div>
+
+<div class = "login-container-2">
+    <img src ="/reuse.png" / width = '300px';>
+</div>
+
+</div>
