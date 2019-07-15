@@ -34,7 +34,7 @@ exports.addUsersInfo = function addUsersInfo(firstname, lastname, email, passwor
 exports.addUsersProfile = function addUsersProfile(age, city, homepage, userId) {
     return db.query(
         `INSERT INTO user_profile (age, city, homepage, userId) VALUES ($1, $2, $3, $4) RETURNING id`,
-        [ age, city, homepage, userId ]);
+        [ age || null, city, homepage, userId ]);
 };
 
 exports.getUserProfile = function () {

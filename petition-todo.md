@@ -53,3 +53,69 @@ i think bc i am using one cookie and have problem in db  with ids.
 
 user proper coookie for proper time.
 
+--------
+
+**<cookie -  req.session.user_id>**
+
+app.get(/register) :
+
+​	use - req.session.user_id
+
+app.post(/register) :
+
+​	save - req.session.user_id = results.rows[0].id
+
+app.post(/profile) :
+
+​	use - req.session.user_id
+
+app.get(/login) :
+
+​	use - req.session.user_id
+
+app.post(/login) :
+
+​	use - req.session.user_id
+
+app.post(/petition) :
+
+​	use - req.session.user_id
+
+app.get(/profile/edit) :
+
+​	use - req.session.user_id
+
+app.post(/profile/edit) :
+
+​	use - req.session.user_id 4 times.
+
+app.post(/sigdelete) : 
+
+​	use - req.session.user_id
+
+**<cookie -  req.session.sign_id>**
+
+app.post(/login) :
+
+- [x] ​	save - req.session.sign_id = results.rows[o].sign_id;
+
+- [ ] ​	use - req.session.sign_id
+
+app.get(/petition) :
+
+- [ ] ​	use - req.session.sign_id
+
+app.post(/petition) : 
+
+- [ ] ​	save - req.session.sign_id = results.rows[0].user_id
+
+app.get(petition/signed) :
+
+- [ ]   use - req.session.sign_id
+
+app.post(/sigdelete) :
+
+- [ ]   use - req.session.sign_id
+
+------------------------
+

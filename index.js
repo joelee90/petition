@@ -91,7 +91,7 @@ app.post("/login", (req, res) => {
                     .then(matched => {
                         if (matched) {
                             req.session.usersInformation = val.rows[0].id;
-                            req.session.name = req.body[0].firstname;
+                            req.session.name = val.rows[0].firstname;
                             // console.log("login", val.rows[0].id);
                             if (!val.rows[0].signature) {
                                 res.redirect("/petition");
@@ -287,7 +287,6 @@ app.post('/deleteSignature', (req, res) => {
         });
 });
 
-
 app.get("/logout", function(req, res) {
     req.session = null;
     res.redirect("/register");
@@ -311,8 +310,6 @@ app.get('/product', (req, res) => {
         `
     );
 });
-
-// <input type = 'hidden' name= '_csrf' value='${req.csrfToken()}'>
 
 app.post('/product', (req, res) => {
     req.session.wouldLikeToBuy = true;
