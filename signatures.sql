@@ -9,14 +9,6 @@ CREATE TABLE signings(
 -- INSERT INTO signings(userId, signature)
 -- VALUES ('', '');
 
-SELECT * FROM signings;
-
-
-
--- INSERT INTO usersinfo(firstname, lastname, email, password)
--- VALUES ('', '', '', '');
-
-
 DROP TABLE IF EXISTS user_profile;
 CREATE TABLE user_profile(
     id SERIAL PRIMARY KEY,
@@ -26,8 +18,6 @@ CREATE TABLE user_profile(
     userId INTEGER UNIQUE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-
-SELECT * FROM user_profile;
 
 -- INSERT INTO user_profile(age, city, homepage, userId)
 -- VALUES (null,'', '', '');
@@ -42,4 +32,5 @@ CREATE TABLE usersinfo(
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-SELECT * FROM usersinfo;
+-- INSERT INTO usersinfo(firstname, lastname, email, password)
+-- VALUES ('', '', '', '');

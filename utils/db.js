@@ -47,7 +47,7 @@ exports.getUserProfile = function () {
         user_profile.homepage AS homepage
         FROM usersinfo
         LEFT JOIN signings
-        ON signings.userId = userId
+        ON signings.userId = usersinfo.id
         LEFT JOIN user_profile
         ON signings.userId = user_profile.userId
         `
@@ -66,7 +66,7 @@ exports.getSignersByCity = function (city) {
         user_profile.homepage AS homepage
         FROM usersinfo
         LEFT JOIN signings
-        ON signings.userId = userId
+        ON signings.userId = usersinfo.id
         LEFT JOIN user_profile
         ON signings.userId = user_profile.userId
         WHERE LOWER(city) = LOWER($1)`,
@@ -132,48 +132,3 @@ exports.deleteSignature = function deleteSignature(id) {
     return db.query(
         `DELETE FROM signings WHERE id = $1`, [id]);
 };
-// exports.editUserProfile = function editUserProfile(age, city, homepage, userId) {
-//     return db.query(
-//         `INSERT INTO user_profile (age, city, homepage, userId) VALUES ($1, $2, $3, $4) ON CONFLICT (userId)
-//         DO UPDATE SET age = $1, city = $2, homepage = $3 RETURNING id`,
-//         [ age, city, homepage, userId ]
-//     );
-// };
-
-
-// exports.getEmailToCheckSignature = function (email) {
-//     return db.query (
-//         `
-//         SELECT
-//         signings.signature AS signature,
-//         usersinfo.email AS email
-//         FROM signings
-//         LEFT JOIN usersinfo
-//         ON signings.userId = usersinfo.id
-//         WHERE email = $1,
-//         `
-//             [email]
-//     );
-// };
-
-//---------------encounter notes-----------------------------------------------
-//city = $1, country = $2
-//$ used to prevent a type of attack called a SQL Injection.
-
-
-// var spicedPg = require('spiced-pg');
-//
-// var db = spicedPg('postgres:postgres:postgres@localhost:5432/cities');
-//
-// exports.getCities = function getCities() {
-//     return db.query('SELECT * FROM cities');
-// };
-//
-// exports.addCity = function addCity(city, country) {
-//     return db.query(
-//         `INSERT INTO cities (city, country) VALUES ($1, $2)`,
-//         [ city, country ]);
-// };
-
-//city = $1, country = $2
-//$ used to prevent a type of attack called a SQL Injection.

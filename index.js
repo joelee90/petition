@@ -1,43 +1,41 @@
 const express = require('express');
 const app = (exports.app = express());
-const fs = require('fs');
 const hb = require('express-handlebars');
 const db = require("./utils/db");
 const bcrypt = require("./utils/bc");
+const csurf = require('csurf');
+// const helmet = require("helmet");
 
 app.engine('handlebars', hb());
 app.set('view engine', 'handlebars');
 app.use(require('cookie-parser')());
 app.use("/favicon.ico", (req,res) => res.sendStatus(404));
-const bodyParser = require('body-parser');
-const csurf = require('csurf');
-
 app.use(express.static('./static'));
+// app.use(helmet());
 
-app.use(function(req, res, next) {
+app.use((req, res, next) => {
     res.set('x-frame-options', 'deny');
     next();
 });
 
-//--------------------cookie-----------------------
 let cookieSession = require('cookie-session');
 app.use(cookieSession({
     secret: `I'm always angry.`,
     maxAge: 1000 * 60 * 60 * 24 * 14
 }));
-//--------------------------------------------------
+
 app.use(require("body-parser").urlencoded({
     extended: false
 }));
+
 app.use(csurf());
 
-app.use(function(req, res, next) {
+app.use((req, res, next) => {
     res.locals.csrfToken = req.csrfToken();
     next();
 });
 
-
-app.get('/', function(req, res) {
+app.get('/', (req, res) => {
     if(req.session.usersInformation) {
         res.redirect('/login');
     } else {
@@ -45,13 +43,17 @@ app.get('/', function(req, res) {
     }
 });
 
-app.get('/register', function(req, res) {
-    res.render('register', {
-        title: "Register"
-    });
+app.get('/register', (req, res) => {
+    if(req.session.usersInformation) {
+        res.redirect('/petition');
+    } else {
+        res.render('register', {
+            title: "Register"
+        });
+    }
 });
 
-app.post('/register', function(req, res) {
+app.post('/register', (req, res) => {
     bcrypt.hashPassword(req.body.password).then(pass => {
         return db.addUsersInfo(
             req.body.firstname,
@@ -59,8 +61,6 @@ app.post('/register', function(req, res) {
             req.body.email,
             pass
         ).then(results => {
-            // console.log("req.body: ",req.body);
-            // console.log("results: ",results);
             req.session.usersInformation = results.rows[0].id;
             req.session.name = req.body.firstname;
             res.redirect('/profile');
@@ -71,7 +71,7 @@ app.post('/register', function(req, res) {
     });
 });
 
-app.get('/login', function(req, res) {
+app.get('/login', (req, res) => {
     if(!req.session.usersInformation) {
         res.render('login', {
             title: "Login"
@@ -84,51 +84,45 @@ app.get('/login', function(req, res) {
 app.post("/login", (req, res) => {
     db.getEmailToCheckSignature(req.body.email)
         .then(val => {
-            // console.log('val', val);
-            //check if email exists in the db
-            if (val.rowCount > 0) {
-                bcrypt.checkPassword(req.body.password, val.rows[0].password)
-                    .then(matched => {
-                        if (matched) {
-                            req.session.usersInformation = val.rows[0].id;
-                            req.session.name = val.rows[0].firstname;
-                            // console.log("login", val.rows[0].id);
-                            if (!val.rows[0].signature) {
-                                res.redirect("/petition");
-                            } else {
-                                res.redirect("/petition/signers");
-                            }
-                        } else {
-                            res.render('login', {});
-                        }
-                    })
-                    .catch(err => {
-                        console.log(err);
-                    });
-            }  else if(!val.rowAsArray) {
-                res.render("register", {
-                    message: true
-                });
-            } else {
-                res.redirect("/petition");
+            console.log("val in login", val.rows[0]);
+            if(!val.rows[0]) {
+                return res.render('login', {});
             }
-        })
-        .catch(err => {
-            console.log("Error Message: ", err);
+            return bcrypt.checkPassword(req.body.password, val.rows[0].password)
+                .then(match => {
+                    if(match === true) {
+                        console.log("val.rows[0].id in login", val.rows[0].id);
+                        req.session.usersInformation = val.rows[0].id;
+                        req.session.sign_id = val.rows[0].signature;
+                        req.session.name = val.rows[0].firstname;
+                    }
+                    if(req.session.sign_id) {
+                        res.redirect('/petition/signers');
+                    } else {
+                        res.redirect('/petition');
+                    }
+                })
+                .catch(err => {
+                    console.log("Error Message in post login: ", err);
+                });
         });
 });
 
-app.get('/profile', function(req, res) {
+app.get('/profile', (req, res) => {
     res.render('profile', {
         title: "Profile",
         name: req.session.name
     });
 });
 
-app.post('/profile', function(req, res) {
-    return db.addUsersProfile(req.body.age, req.body.city, req.body.homepage, req.session.usersInformation)
-        .then(results => {
-            req.session.usersInformation = results.rows[0].id;
+app.post('/profile', (req, res) => {
+    return db.addUsersProfile(
+        req.body.age,
+        req.body.city,
+        req.body.homepage,
+        req.session.usersInformation
+    )
+        .then(() => {
             res.redirect('/petition');
         })
         .catch(err => {
@@ -150,10 +144,10 @@ app.get("/petition/signers/:city", (req, res) => {
 });
 
 app.get('/profile/edit', (req, res) => {
+    console.log("req.session.usersInformation profile/edit", req.session.usersInformation);
     db.editUserProfile(req.session.usersInformation)
         .then(results => {
-            console.log(results);
-            console.log("req.session.usersInformation", req.session.usersInformation);
+            console.log("results in edit", results);
             res.render('edit', {
                 title: "Edit",
                 profile : results.rows[0]
@@ -212,19 +206,23 @@ app.post('/profile/edit', (req, res) => {
         .then(()=> {
             res.redirect('/petition/signers');
         })
-        .catch(function(err) {
+        .catch((err) => {
             console.log("err in profile edit", err);
         });
 
 });
 
-app.get('/petition', function(req, res) {
-    res.render('petition', {
-        title: "No Plastic!"
-    });
+app.get('/petition', (req, res) => {
+    if(req.session.sign_id) {
+        res.redirect('/petition/signed');
+    } else {
+        res.render('petition', {
+            title: "No Plastic!"
+        });
+    }
 });
 
-app.post('/petition', function(req, res) {
+app.post('/petition', (req, res) => {
     if(req.body.signature == "") {
         res.render('petition', {
             message: true
@@ -232,7 +230,7 @@ app.post('/petition', function(req, res) {
     } else {
         db.addSignatures(req.session.usersInformation, req.body.signature)
             .then(results=> {
-                req.session.usersInformation = results.rows[0].id;
+                req.session.sign_id = results.rows[0].id;
                 res.redirect('/petition/signed');
             })
             .catch(err => {
@@ -241,12 +239,12 @@ app.post('/petition', function(req, res) {
     }
 });
 
-app.get('/petition/signed', function(req,res) {
+app.get('/petition/signed', (req,res) => {
     let resultsNo;
     db.getSignaturesNum()
         .then(results => {
             resultsNo = results.rows;
-            return db.getSignatureImage(req.session.usersInformation)
+            return db.getSignatureImage(req.session.sign_id)
                 .then(results => {
                     if(results.rows.length == 0) {
                         res.redirect('/petition');
@@ -258,7 +256,6 @@ app.get('/petition/signed', function(req,res) {
                             name: req.session.name
                         });
                     }
-
                 });
         })
         .catch(err => {
@@ -266,20 +263,22 @@ app.get('/petition/signed', function(req,res) {
         });
 });
 
-app.get('/petition/signers', function(req,res) {
+app.get('/petition/signers', (req,res) => {
     db.getUserProfile()
         .then(results => {
             res.render('signers', {
                 title: "Signers",
                 signers: results.rows
             });})
-        .catch();
+        .catch(err => {
+            console.log('err in petition/signers', err);
+        });
 });
 
 app.post('/deleteSignature', (req, res) => {
     db.deleteSignature(req.session.usersInformation)
         .then(()=> {
-            delete req.session.usersInformation;
+            delete req.session.sign_id;
             res.redirect('/petition');
         })
         .catch(err => {
@@ -287,33 +286,9 @@ app.post('/deleteSignature', (req, res) => {
         });
 });
 
-app.get("/logout", function(req, res) {
+app.get("/logout", (req, res) => {
     req.session = null;
-    res.redirect("/register");
-});
-
-//--------------------demo routes-----------------------
-
-app.get('/home', (req, res) => {
-    res.send('<h1>welcome</h1>');
-});
-
-app.get('/product', (req, res) => {
-    res.send(
-        `
-        <html>
-            <h1>buy</h1>
-            <form method = 'POST'>
-                <button>yes</button>
-            </form>
-        </html>
-        `
-    );
-});
-
-app.post('/product', (req, res) => {
-    req.session.wouldLikeToBuy = true;
-    res.redirect('/home');
+    res.redirect("/login");
 });
 
 if (require.main == module) {

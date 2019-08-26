@@ -1,6 +1,5 @@
 const canvas = document.getElementById("canvas");
 const clear = document.getElementById("clear-btn");
-// const submit = document.getElementById('subtmit-btn');
 const ctx = canvas.getContext("2d");
 
 let position = { x: 0, y: 0 };
@@ -32,26 +31,7 @@ function clearCanvas() {
     $('input[name="signature"]').val("");
 }
 
-// window.addEventListener("load", function() {
-//
-// });
-
 canvas.addEventListener("mousedown", setPosition);
 canvas.addEventListener("mousemove", draw);
 canvas.addEventListener("mouseup", setPosition);
 clear.addEventListener("click", clearCanvas);
-
-// let dataUrl = document.getElementById('signature');
-//
-// submit.addEventListener("click", function () {
-//     dataUrl.val = canvas.toDataURL();
-//     console.log(dataUrl);
-// });
-
-// submit.addEventListener("click", function () {
-//     $('input[name="signature"]').val(canvas.toDataURL());
-// });
-
-
-//mvoe to rdraw
-//move it to see so that the user has drawn something

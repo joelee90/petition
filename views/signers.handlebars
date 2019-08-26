@@ -5,25 +5,25 @@
     </header>
 
 <div class = 'signers-nav'>
-    <a href = "/profile/edit"><button type="submit" id = "edit-btn" class = "edit-btn">EDIT YOUR PROFILE</button></a>
+    <a href = "/profile/edit">
+        <button type="submit" id = "edit-btn" class = "edit-btn">
+            EDIT YOUR PROFILE
+        </button>
+    </a>
     </br>
     <a href = "/logout"><button class = "logout-btn">LOGOUT</button></a>
 </div>
 
 <div class = "signers-container-1">
     {{#signers}}
-
+        <p>
             {{#if homepage}}
-                <p><a href {{homepage}}> | {{firstname}} | {{lastname}} </a> | {{age}} | <a href = '/petition/signers/{{city}}'> {{city}} </a></p>
-                    {{else}}
-                <p>{{firstname}} {{lastname}}| {{age}} | <a href = '/petition/signers/{{city}}'>{{city}}</a></p>
+                    <a href="{{homepage}}">{{firstname}} {{lastname}}</a>
+                {{else}}
+                    {{firstname}} {{lastname}}
             {{/if}}
-
+                {{age}}
+                <a href="/petition/signers/{{city}}">{{city}}</a>
+        </p>
     {{/signers}}
-</div>
-
-<div class = "signers-container-2">
-
-</div>
-
 </div>
