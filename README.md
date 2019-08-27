@@ -13,3 +13,5 @@ Petition to sign up to ban plastic bottles for the better world.
 
 ### Built with
 Node.js | Express.js | PostgreSQL | Handlebars
+
+![petition](/petition.gif)
