@@ -3,34 +3,33 @@ const app = (exports.app = express());
 const hb = require('express-handlebars');
 const db = require("./utils/db");
 const bcrypt = require("./utils/bc");
+const cookieSession = require('cookie-session');
 const csurf = require('csurf');
-// const helmet = require("helmet");
 
 app.engine('handlebars', hb());
 app.set('view engine', 'handlebars');
 app.use(require('cookie-parser')());
 app.use("/favicon.ico", (req,res) => res.sendStatus(404));
 app.use(express.static('./static'));
-// app.use(helmet());
 
 app.use((req, res, next) => {
     res.set('x-frame-options', 'deny');
     next();
 });
 
-let cookieSession = require('cookie-session');
 app.use(cookieSession({
     secret: `I'm always angry.`,
     maxAge: 1000 * 60 * 60 * 24 * 14
 }));
 
-app.use(require("body-parser").urlencoded({
+app.use(express.urlencoded({
     extended: false
 }));
 
 app.use(csurf());
 
 app.use((req, res, next) => {
+    res.set("x-frame-options", "deny");
     res.locals.csrfToken = req.csrfToken();
     next();
 });
@@ -63,6 +62,7 @@ app.post('/register', (req, res) => {
         ).then(results => {
             req.session.usersInformation = results.rows[0].id;
             req.session.name = req.body.firstname;
+            console.log("req.session regi post", req.session);
             res.redirect('/profile');
         })
             .catch(err => {
@@ -84,17 +84,21 @@ app.get('/login', (req, res) => {
 app.post("/login", (req, res) => {
     db.getEmailToCheckSignature(req.body.email)
         .then(val => {
-            console.log("val in login", val.rows[0]);
+            // console.log("val in login", val.rows[0]);
+            // req.session.usersInformation = val.rows[0].id;
             if(!val.rows[0]) {
                 return res.render('login', {});
             }
             return bcrypt.checkPassword(req.body.password, val.rows[0].password)
                 .then(match => {
                     if(match === true) {
-                        console.log("val.rows[0].id in login", val.rows[0].id);
+                        console.log("val.rows[0] in login", val.rows[0]);
                         req.session.usersInformation = val.rows[0].id;
-                        req.session.sign_id = val.rows[0].signature;
-                        req.session.name = val.rows[0].firstname;
+                        console.log("req.session.sign_id", req.session.sign_id);
+                        req.session.sign_id = val.rows[0].userid;
+                        // req.session.name = val.rows[0].firstname;
+                        console.log("req.session.usersInformation when login", req.session.usersInformation);
+                        console.log("(req.session in login post", req.session);
                     }
                     if(req.session.sign_id) {
                         res.redirect('/petition/signers');
@@ -131,6 +135,7 @@ app.post('/profile', (req, res) => {
 });
 
 app.get("/petition/signers/:city", (req, res) => {
+    console.log("req.session in city", req.session);
     db.getSignersByCity(req.params.city)
         .then(results => {
             console.log("req.params.city", req.params.city);
@@ -144,7 +149,8 @@ app.get("/petition/signers/:city", (req, res) => {
 });
 
 app.get('/profile/edit', (req, res) => {
-    console.log("req.session.usersInformation profile/edit", req.session.usersInformation);
+    // console.log("req.session.usersInformation profile/edit", req.session.usersInformation);
+    console.log("req.session profile/edit", req.session);
     db.editUserProfile(req.session.usersInformation)
         .then(results => {
             console.log("results in edit", results);
@@ -231,6 +237,7 @@ app.post('/petition', (req, res) => {
         db.addSignatures(req.session.usersInformation, req.body.signature)
             .then(results=> {
                 req.session.sign_id = results.rows[0].id;
+                // console.log("req.session.sign_id in petition", req.session.sign_id);
                 res.redirect('/petition/signed');
             })
             .catch(err => {
@@ -264,6 +271,7 @@ app.get('/petition/signed', (req,res) => {
 });
 
 app.get('/petition/signers', (req,res) => {
+    console.log("res.session in signers", req.session);
     db.getUserProfile()
         .then(results => {
             res.render('signers', {

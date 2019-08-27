@@ -1,7 +1,7 @@
 DROP TABLE IF EXISTS signings;
 CREATE TABLE signings(
     id SERIAL PRIMARY KEY,
-    userId INTEGER UNIQUE,
+    userId INTEGER UNIQUE NOT NULL,
     signature TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

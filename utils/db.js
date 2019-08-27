@@ -76,7 +76,13 @@ exports.getSignersByCity = function (city) {
 
 exports.getEmailToCheckSignature = function (email) {
     return db.query (
-        `SELECT usersinfo.email, usersinfo.password, usersinfo.id, signings.signature FROM usersinfo FULL OUTER JOIN signings ON usersinfo.id = signings.userid WHERE usersinfo.email = $1`,
+        `SELECT usersinfo.email,
+        usersinfo.password,
+        usersinfo.id,
+        signings.userid 
+        FROM usersinfo
+        FULL OUTER JOIN
+        signings ON usersinfo.id = signings.userid WHERE usersinfo.email = $1`,
         [email]
     );
 };
